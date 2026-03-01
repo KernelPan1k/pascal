@@ -76,6 +76,9 @@
     "setupFilesAfterFramework": [
       "@testing-library/jest-dom"
     ],
-    "testPathPattern": "src/__tests__"
+    "testMatch": [
+      "<rootDir>/src/__tests__/**/*.test.ts",
+      "<rootDir>/src/__tests__/**/*.test.tsx"
+    ]
   }
 }
