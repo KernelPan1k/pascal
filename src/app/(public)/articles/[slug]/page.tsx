@@ -158,7 +158,7 @@ export default async function ArticlePage({ params }: Props) {
           style={{
             marginTop: "3rem",
             paddingTop: "2rem",
-            borderTop: "1px solid var(--color-cream-dark)",
+            borderTop: "1px solid var(--color-border)",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",

@@ -115,8 +115,8 @@ export default async function ArticlesPage({ searchParams }: Props) {
               <article
                 key={article.id}
                 style={{
-                  backgroundColor: "white",
-                  border: "1px solid var(--color-cream-dark)",
+                  backgroundColor: "var(--color-surface)",
+                  border: "1px solid var(--color-border)",
                   overflow: "hidden",
                 }}
               >
@@ -179,7 +179,7 @@ export default async function ArticlesPage({ searchParams }: Props) {
                     style={{
                       fontFamily: "var(--font-display)",
                       fontSize: "1.2rem",
-                      color: "var(--color-midnight)",
+                      color: "var(--color-cream-bright)",
                       marginBottom: "0.75rem",
                       lineHeight: 1.35,
                     }}
@@ -236,7 +236,7 @@ export default async function ArticlesPage({ searchParams }: Props) {
                 href={`/articles?page=${page - 1}`}
                 style={{
                   padding: "0.5rem 1rem",
-                  border: "1px solid var(--color-cream-dark)",
+                  border: "1px solid var(--color-border)",
                   textDecoration: "none",
                   color: "var(--color-text)",
                   fontFamily: "var(--font-display)",
@@ -252,12 +252,12 @@ export default async function ArticlesPage({ searchParams }: Props) {
                 href={`/articles?page=${p}`}
                 style={{
                   padding: "0.5rem 0.875rem",
-                  border: "1px solid var(--color-cream-dark)",
+                  border: "1px solid var(--color-border)",
                   textDecoration: "none",
                   fontFamily: "var(--font-display)",
                   fontSize: "0.875rem",
-                  backgroundColor: p === page ? "var(--color-midnight)" : "transparent",
-                  color: p === page ? "var(--color-cream)" : "var(--color-text)",
+                  backgroundColor: p === page ? "var(--color-gold)" : "transparent",
+                  color: p === page ? "var(--color-midnight)" : "var(--color-text)",
                 }}
               >
                 {p}
@@ -268,7 +268,7 @@ export default async function ArticlesPage({ searchParams }: Props) {
                 href={`/articles?page=${page + 1}`}
                 style={{
                   padding: "0.5rem 1rem",
-                  border: "1px solid var(--color-cream-dark)",
+                  border: "1px solid var(--color-border)",
                   textDecoration: "none",
                   color: "var(--color-text)",
                   fontFamily: "var(--font-display)",

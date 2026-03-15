@@ -92,8 +92,8 @@ export default async function DiscographiePage() {
               >
                 <article
                   style={{
-                    backgroundColor: "white",
-                    border: "1px solid var(--color-cream-dark)",
+                    backgroundColor: "var(--color-surface)",
+                    border: "1px solid var(--color-border)",
                     overflow: "hidden",
                     transition: "transform 0.3s, box-shadow 0.3s",
                     cursor: "pointer",
@@ -146,7 +146,7 @@ export default async function DiscographiePage() {
                       style={{
                         fontFamily: "var(--font-display)",
                         fontSize: "1.15rem",
-                        color: "var(--color-midnight)",
+                        color: "var(--color-cream-bright)",
                         marginBottom: "0.5rem",
                         lineHeight: 1.3,
                       }}
@@ -158,7 +158,7 @@ export default async function DiscographiePage() {
                         fontSize: "0.75rem",
                         letterSpacing: "0.1em",
                         textTransform: "uppercase",
-                        color: "var(--color-burgundy)",
+                        color: "var(--color-gold)",
                       }}
                     >
                       Découvrir →

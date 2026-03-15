@@ -89,8 +89,8 @@ export default async function TemoignagesPage() {
                 key={t.id}
                 style={{
                   padding: "2rem 2.5rem",
-                  backgroundColor: "white",
-                  border: "1px solid var(--color-cream-dark)",
+                  backgroundColor: "var(--color-surface)",
+                  border: "1px solid var(--color-border)",
                   borderLeft: "3px solid var(--color-gold)",
                   position: "relative",
                 }}
@@ -126,7 +126,7 @@ export default async function TemoignagesPage() {
                     style={{
                       fontFamily: "var(--font-display)",
                       fontWeight: 600,
-                      color: "var(--color-midnight)",
+                      color: "var(--color-gold)",
                       fontSize: "0.95rem",
                     }}
                   >
@@ -166,7 +166,7 @@ export default async function TemoignagesPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "1.75rem",
-              color: "var(--color-midnight)",
+              color: "var(--color-cream-bright)",
               marginBottom: "0.75rem",
             }}
           >

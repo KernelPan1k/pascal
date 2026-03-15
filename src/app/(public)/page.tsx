@@ -176,7 +176,7 @@ export default async function HomePage() {
         <section
           style={{
             padding: "5rem 1.5rem",
-            backgroundColor: "var(--color-cream)",
+            backgroundColor: "var(--color-deep)",
           }}
         >
           <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
@@ -196,7 +196,7 @@ export default async function HomePage() {
                 style={{
                   fontFamily: "var(--font-display)",
                   fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-                  color: "var(--color-midnight)",
+                  color: "var(--color-cream-bright)",
                 }}
               >
                 Derniers Articles
@@ -214,8 +214,8 @@ export default async function HomePage() {
                 <article
                   key={article.id}
                   style={{
-                    backgroundColor: "white",
-                    border: "1px solid var(--color-cream-dark)",
+                    backgroundColor: "var(--color-surface)",
+                    border: "1px solid var(--color-border)",
                     overflow: "hidden",
                     transition: "transform 0.2s, box-shadow 0.2s",
                   }}
@@ -252,7 +252,7 @@ export default async function HomePage() {
                       style={{
                         fontFamily: "var(--font-display)",
                         fontSize: "1.25rem",
-                        color: "var(--color-midnight)",
+                        color: "var(--color-cream-bright)",
                         marginBottom: "0.75rem",
                         lineHeight: 1.3,
                       }}
@@ -304,7 +304,7 @@ export default async function HomePage() {
         <section
           style={{
             padding: "5rem 1.5rem",
-            backgroundColor: "var(--color-deep)",
+            backgroundColor: "var(--color-surface)",
             color: "var(--color-cream)",
           }}
         >
@@ -395,7 +395,7 @@ export default async function HomePage() {
         <section
           style={{
             padding: "5rem 1.5rem",
-            backgroundColor: "var(--color-cream)",
+            backgroundColor: "var(--color-midnight)",
             textAlign: "center",
           }}
         >
@@ -404,7 +404,7 @@ export default async function HomePage() {
               style={{
                 fontSize: "4rem",
                 color: "var(--color-gold)",
-                opacity: 0.4,
+                opacity: 0.35,
                 lineHeight: 1,
                 marginBottom: "1rem",
                 fontFamily: "Georgia, serif",
@@ -417,7 +417,7 @@ export default async function HomePage() {
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)",
                 fontStyle: "italic",
-                color: "var(--color-midnight)",
+                color: "var(--color-cream-bright)",
                 lineHeight: 1.7,
                 whiteSpace: "pre-line",
               }}

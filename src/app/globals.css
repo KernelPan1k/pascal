@@ -1,17 +1,20 @@
 @import "tailwindcss";
-@import "@tailwindcss/typography";
+@plugin "@tailwindcss/typography";
 
 @theme {
-  --color-midnight: #0d0d1a;
-  --color-deep: #1a1a2e;
+  --color-midnight: #07070f;
+  --color-deep: #0e0e1c;
+  --color-surface: #131328;
   --color-gold: #c9a96e;
   --color-gold-light: #e8c896;
-  --color-cream: #f0ece0;
-  --color-cream-dark: #e8e0cc;
-  --color-burgundy: #7c1d3f;
-  --color-burgundy-dark: #5a1530;
-  --color-text: #2c2c3a;
-  --color-text-light: #6b6b7d;
+  --color-cream: #d4cfc0;
+  --color-cream-bright: #f0ece0;
+  --color-cream-dark: rgba(201, 169, 110, 0.15);
+  --color-burgundy: #c4607a;
+  --color-burgundy-dark: #a04060;
+  --color-text: #d4cfc0;
+  --color-text-light: rgba(212, 207, 192, 0.5);
+  --color-border: rgba(201, 169, 110, 0.13);
 
   --font-display: "Playfair Display", Georgia, serif;
   --font-body: "Lora", Georgia, serif;
@@ -19,16 +22,19 @@
 }
 
 :root {
-  --color-midnight: #0d0d1a;
-  --color-deep: #1a1a2e;
+  --color-midnight: #07070f;
+  --color-deep: #0e0e1c;
+  --color-surface: #131328;
   --color-gold: #c9a96e;
   --color-gold-light: #e8c896;
-  --color-cream: #f0ece0;
-  --color-cream-dark: #e8e0cc;
-  --color-burgundy: #7c1d3f;
-  --color-burgundy-dark: #5a1530;
-  --color-text: #2c2c3a;
-  --color-text-light: #6b6b7d;
+  --color-cream: #d4cfc0;
+  --color-cream-bright: #f0ece0;
+  --color-cream-dark: rgba(201, 169, 110, 0.15);
+  --color-burgundy: #c4607a;
+  --color-burgundy-dark: #a04060;
+  --color-text: #d4cfc0;
+  --color-text-light: rgba(212, 207, 192, 0.5);
+  --color-border: rgba(201, 169, 110, 0.13);
 }
 
 * {
@@ -44,7 +50,7 @@ html {
 body {
   font-family: var(--font-body);
   color: var(--color-text);
-  background-color: var(--color-cream);
+  background-color: var(--color-midnight);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
@@ -74,7 +80,7 @@ h1, h2, h3, h4, h5, h6 {
 .prose-pascal h3,
 .prose-pascal h4 {
   font-family: var(--font-display);
-  color: var(--color-midnight);
+  color: var(--color-cream-bright);
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
@@ -84,7 +90,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .prose-pascal em {
-  color: var(--color-burgundy);
+  color: var(--color-gold-light);
   font-style: italic;
 }
 
@@ -97,9 +103,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .prose-pascal a {
-  color: var(--color-burgundy);
+  color: var(--color-gold);
   text-decoration: underline;
-  text-decoration-color: var(--color-gold);
+  text-decoration-color: rgba(201, 169, 110, 0.4);
 }
 
 .prose-pascal img {
@@ -115,8 +121,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Form styles */
 .form-input {
-  background: white;
-  border: 1px solid var(--color-cream-dark);
+  background: var(--color-deep);
+  border: 1px solid var(--color-border);
   border-radius: 4px;
   padding: 0.625rem 0.875rem;
   font-family: var(--font-body);
@@ -152,20 +158,20 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-secondary {
   background-color: transparent;
-  color: var(--color-midnight);
+  color: var(--color-cream);
   font-family: var(--font-display);
   font-weight: 600;
   padding: 0.625rem 1.5rem;
   border-radius: 2px;
-  border: 1px solid var(--color-midnight);
+  border: 1px solid rgba(201, 169, 110, 0.35);
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
   letter-spacing: 0.05em;
 }
 
 .btn-secondary:hover {
-  background-color: var(--color-midnight);
-  color: var(--color-cream);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
 }
 
 .btn-danger {

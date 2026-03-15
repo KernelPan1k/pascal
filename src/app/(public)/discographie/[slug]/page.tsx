@@ -106,7 +106,7 @@ export default async function AlbumPage({ params }: Props) {
                     fontSize: "0.75rem",
                     letterSpacing: "0.15em",
                     textTransform: "uppercase",
-                    color: "var(--color-text-light)",
+                    color: "var(--color-gold)",
                     marginBottom: "0.75rem",
                   }}
                 >
@@ -141,7 +141,7 @@ export default async function AlbumPage({ params }: Props) {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(2rem, 5vw, 3rem)",
-                color: "var(--color-midnight)",
+                color: "var(--color-cream-bright)",
                 lineHeight: 1.2,
                 marginBottom: "2rem",
               }}

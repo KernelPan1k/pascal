@@ -78,6 +78,7 @@ export default async function BiographiePage() {
             color: "var(--color-text)",
           }}
         />
+
       </div>
     </>
   );
