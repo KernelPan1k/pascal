@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { checkRateLimit } from "@/utils/rateLimit";
+import { sendTestimonialNotification } from "@/lib/mailer";
 
 const submitSchema = z.object({
   author: z.string().min(1).max(100),
@@ -68,6 +69,12 @@ export async function POST(req: NextRequest) {
       status: "PENDING",
     },
   });
+
+  sendTestimonialNotification({
+    author: testimonial.author,
+    role: testimonial.role,
+    content: testimonial.content,
+  }).catch(() => {}); // fire-and-forget, ne bloque pas la réponse
 
   return NextResponse.json(testimonial, { status: 201 });
 }

@@ -85,24 +85,6 @@ export default function PublicFooter() {
             </ul>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h4
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "0.8rem",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: "var(--color-gold)",
-                marginBottom: "1rem",
-              }}
-            >
-              Contact
-            </h4>
-            <p style={{ fontSize: "0.875rem", color: "rgba(240, 236, 224, 0.7)" }}>
-              contact@pascalmathieu-artiste.fr
-            </p>
-          </div>
         </div>
 
         {/* Divider */}
