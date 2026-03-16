@@ -14,7 +14,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   pages: {
-    signIn: "/admin/login",
+    signIn: "/panneau/login",
   },
   providers: [
     Credentials({

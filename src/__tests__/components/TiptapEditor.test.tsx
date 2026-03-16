@@ -7,7 +7,7 @@
 
 describe("TiptapEditor contract", () => {
   it("TiptapEditor module path is correct", () => {
-    const editorPath = "@/components/admin/TiptapEditor";
+    const editorPath = "@/components/panneau/TiptapEditor";
     expect(editorPath).toContain("TiptapEditor");
   });
 

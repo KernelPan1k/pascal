@@ -3,11 +3,12 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
+import { validatePassword } from "@/utils/password";
 
 const createSchema = z.object({
   name: z.string().min(1).max(100),
   email: z.string().email(),
-  password: z.string().min(8).max(128),
+  password: z.string().min(1).max(128),
   role: z.enum(["ADMIN", "EDITOR"]).default("EDITOR"),
 });
 
@@ -41,6 +42,14 @@ export async function POST(req: NextRequest) {
   }
 
   const { name, email, password, role } = parsed.data;
+
+  const { valid, errors } = validatePassword(password);
+  if (!valid) {
+    return NextResponse.json(
+      { error: "Mot de passe trop faible : " + errors.join(", ") + "." },
+      { status: 400 }
+    );
+  }
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {

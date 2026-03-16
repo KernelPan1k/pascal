@@ -134,7 +134,7 @@ export default function PublicFooter() {
             © {currentYear} Pascal Mathieu. Tous droits réservés.
           </p>
           <Link
-            href="/admin"
+            href="/panneau"
             style={{
               fontSize: "0.75rem",
               color: "rgba(240, 236, 224, 0.3)",

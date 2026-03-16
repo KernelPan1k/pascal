@@ -1,22 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-export async function middleware(req: NextRequest) {
-  const isLoginPage = req.nextUrl.pathname === "/admin/login";
+// In-memory rate limiter: max 5 login attempts per IP per 15 minutes
+const loginAttempts = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 5;
+const WINDOW_MS = 15 * 60 * 1000;
 
+function getIp(req: NextRequest): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = loginAttempts.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    loginAttempts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    return false;
+  }
+
+  entry.count += 1;
+  return entry.count > RATE_LIMIT;
+}
+
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  // Rate limit login form submissions
+  if (pathname === "/api/auth/callback/credentials" && req.method === "POST") {
+    const ip = getIp(req);
+    if (isRateLimited(ip)) {
+      return new NextResponse(
+        JSON.stringify({ error: "Trop de tentatives. Réessayez dans 15 minutes." }),
+        { status: 429, headers: { "Content-Type": "application/json" } }
+      );
+    }
+    return NextResponse.next();
+  }
+
+  // Protect /panneau routes
+  const isLoginPage = pathname === "/panneau/login";
   if (isLoginPage) {
     return NextResponse.next();
   }
 
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
-
   if (!token) {
-    return NextResponse.redirect(new URL("/admin/login", req.url));
+    return NextResponse.redirect(new URL("/panneau/login", req.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/panneau/:path*", "/api/auth/callback/credentials"],
 };
