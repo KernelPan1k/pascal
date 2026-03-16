@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { generateSlug } from "@/utils/slugify";
+import MediaUpload from "./MediaUpload";
 
 const TiptapEditor = dynamic(() => import("./TiptapEditor"), { ssr: false });
 
@@ -52,6 +54,10 @@ export default function AlbumForm({ album }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!form.coverImage) {
+      setError("L'image de couverture est requise.");
+      return;
+    }
     setSaving(true);
     setError("");
 
@@ -200,18 +206,23 @@ export default function AlbumForm({ album }: Props) {
             <h3 style={sectionTitleStyle}>Médias</h3>
             <div style={{ display: "grid", gap: "1rem" }}>
               <div>
-                <label htmlFor="coverImage" style={labelStyle}>
-                  Image de couverture *
+                <label style={labelStyle}>
+                  Image de couverture <span style={{ color: "var(--color-burgundy)" }}>*</span>
                 </label>
-                <input
-                  id="coverImage"
-                  type="url"
-                  required
-                  value={form.coverImage}
-                  onChange={(e) => setForm((f) => ({ ...f, coverImage: e.target.value }))}
-                  className="form-input"
-                  placeholder="/uploads/images/…"
-                  style={{ fontFamily: "monospace", fontSize: "0.8rem" }}
+                {form.coverImage && (
+                  <div style={{ position: "relative", width: "100%", paddingBottom: "100%", marginBottom: "0.75rem" }}>
+                    <Image
+                      src={form.coverImage}
+                      alt="Couverture"
+                      fill
+                      style={{ objectFit: "cover", borderRadius: "4px" }}
+                    />
+                  </div>
+                )}
+                <MediaUpload
+                  accept="image/*"
+                  label="Image de couverture"
+                  onUpload={(file) => setForm((f) => ({ ...f, coverImage: file.url }))}
                 />
               </div>
               <div>
