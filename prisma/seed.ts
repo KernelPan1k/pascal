@@ -191,7 +191,10 @@ async function main() {
   console.log("Albums mis à jour");
 
   // ─── Articles ──────────────────────────────────────────────────────────────
-  const admin = await prisma.user.findUnique({ where: { email: adminEmail } });
+  const admin = await prisma.user.findFirst({
+    where: { role: Role.ADMIN },
+    orderBy: { id: "asc" },
+  });
   if (admin) {
     const articles = [
       {
