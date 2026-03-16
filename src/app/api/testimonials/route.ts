@@ -9,6 +9,9 @@ const submitSchema = z.object({
   role: z.string().max(100).optional(),
   content: z.string().min(10).max(1000),
   honeypot: z.string().max(0).optional(),
+  captchaA: z.number().int().min(1).max(9),
+  captchaB: z.number().int().min(1).max(9),
+  captchaAnswer: z.string(),
 });
 
 export async function GET(req: NextRequest) {
@@ -58,7 +61,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true }); // Silent reject for bots
   }
 
-  const { author, role, content } = parsed.data;
+  // Math captcha check
+  const { author, role, content, captchaA, captchaB, captchaAnswer } = parsed.data;
+  if (parseInt(captchaAnswer, 10) !== captchaA + captchaB) {
+    return NextResponse.json({ error: "Réponse incorrecte à la question de vérification." }, { status: 400 });
+  }
 
   const testimonial = await prisma.testimonial.create({
     data: {

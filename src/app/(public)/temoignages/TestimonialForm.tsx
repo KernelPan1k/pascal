@@ -1,6 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+
+function randomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export default function TestimonialForm() {
   const [form, setForm] = useState({
@@ -8,15 +12,35 @@ export default function TestimonialForm() {
     role: "",
     content: "",
     honeypot: "",
+    captchaAnswer: "",
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [captcha, setCaptcha] = useState<{ a: number; b: number } | null>(null);
+  const loadTime = useRef(0);
+
+  useEffect(() => {
+    setCaptcha({ a: randomInt(1, 9), b: randomInt(1, 9) });
+    loadTime.current = Date.now();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Honeypot check (client side)
     if (form.honeypot) return;
+
+    // Timing check — reject if submitted in under 3 seconds
+    if (Date.now() - loadTime.current < 3000) return;
+
+    // Math captcha check
+    if (!captcha) return;
+    const expected = captcha.a + captcha.b;
+    if (parseInt(form.captchaAnswer, 10) !== expected) {
+      setErrorMsg("Réponse incorrecte à la question de vérification.");
+      setStatus("error");
+      return;
+    }
 
     setStatus("loading");
     setErrorMsg("");
@@ -30,6 +54,9 @@ export default function TestimonialForm() {
           role: form.role || undefined,
           content: form.content,
           honeypot: form.honeypot,
+          captchaA: captcha!.a,
+          captchaB: captcha!.b,
+          captchaAnswer: form.captchaAnswer,
         }),
       });
 
@@ -42,7 +69,9 @@ export default function TestimonialForm() {
       }
 
       setStatus("success");
-      setForm({ author: "", role: "", content: "", honeypot: "" });
+      setForm({ author: "", role: "", content: "", honeypot: "", captchaAnswer: "" });
+      setCaptcha({ a: randomInt(1, 9), b: randomInt(1, 9) });
+      loadTime.current = Date.now();
     } catch {
       setErrorMsg("Impossible de soumettre votre témoignage. Veuillez réessayer.");
       setStatus("error");
@@ -168,6 +197,34 @@ export default function TestimonialForm() {
             {form.content.length}/1000 caractères
           </p>
         </div>
+
+        {captcha && (
+          <div>
+            <label
+              htmlFor="captcha"
+              style={{
+                display: "block",
+                fontSize: "0.875rem",
+                fontFamily: "var(--font-display)",
+                color: "var(--color-text)",
+                marginBottom: "0.4rem",
+              }}
+            >
+              Vérification : combien font {captcha.a} + {captcha.b} ?{" "}
+              <span style={{ color: "var(--color-burgundy)" }}>*</span>
+            </label>
+            <input
+              id="captcha"
+              type="number"
+              required
+              value={form.captchaAnswer}
+              onChange={(e) => setForm((f) => ({ ...f, captchaAnswer: e.target.value }))}
+              className="form-input"
+              style={{ maxWidth: "120px" }}
+              autoComplete="off"
+            />
+          </div>
+        )}
 
         {status === "error" && (
           <p
