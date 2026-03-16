@@ -226,18 +226,36 @@ export default function AlbumForm({ album }: Props) {
                 />
               </div>
               <div>
-                <label htmlFor="audioPreview" style={labelStyle}>
-                  Extrait audio (optionnel)
-                </label>
-                <input
-                  id="audioPreview"
-                  type="url"
-                  value={form.audioPreview}
-                  onChange={(e) => setForm((f) => ({ ...f, audioPreview: e.target.value }))}
-                  className="form-input"
-                  placeholder="/uploads/audios/…"
-                  style={{ fontFamily: "monospace", fontSize: "0.8rem" }}
+                <label style={labelStyle}>Extrait audio (optionnel)</label>
+                {form.audioPreview && (
+                  <audio
+                    controls
+                    src={form.audioPreview}
+                    style={{ width: "100%", marginBottom: "0.75rem" }}
+                  />
+                )}
+                <MediaUpload
+                  accept="audio/*"
+                  label="Extrait audio"
+                  onUpload={(file) => setForm((f) => ({ ...f, audioPreview: file.url }))}
                 />
+                {form.audioPreview && (
+                  <button
+                    type="button"
+                    onClick={() => setForm((f) => ({ ...f, audioPreview: "" }))}
+                    style={{
+                      marginTop: "0.4rem",
+                      fontSize: "0.75rem",
+                      color: "var(--color-burgundy)",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: 0,
+                    }}
+                  >
+                    Supprimer l&apos;extrait
+                  </button>
+                )}
               </div>
               <div>
                 <label htmlFor="order" style={labelStyle}>
