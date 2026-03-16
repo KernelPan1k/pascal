@@ -5,24 +5,24 @@ export default auth((req) => {
   const { pathname } = req.nextUrl;
 
   // Allow login page
-  if (pathname === "/admin/login") {
+  if (pathname === "/panneau/login") {
     if (req.auth) {
-      return NextResponse.redirect(new URL("/admin", req.url));
+      return NextResponse.redirect(new URL("/panneau", req.url));
     }
     return NextResponse.next();
   }
 
-  // Protect all /admin/* routes
-  if (pathname.startsWith("/admin")) {
+  // Protect all /panneau/* routes
+  if (pathname.startsWith("/panneau")) {
     if (!req.auth) {
-      return NextResponse.redirect(new URL("/admin/login", req.url));
+      return NextResponse.redirect(new URL("/panneau/login", req.url));
     }
 
     // Admin-only routes
-    const adminOnlyRoutes = ["/admin/users", "/admin/settings"];
+    const adminOnlyRoutes = ["/panneau/users", "/panneau/settings"];
     if (adminOnlyRoutes.some((route) => pathname.startsWith(route))) {
       if (req.auth.user?.role !== "ADMIN") {
-        return NextResponse.redirect(new URL("/admin", req.url));
+        return NextResponse.redirect(new URL("/panneau", req.url));
       }
     }
   }
@@ -31,5 +31,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/panneau/:path*"],
 };
