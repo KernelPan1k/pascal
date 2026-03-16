@@ -232,21 +232,19 @@ export default function UsersAdmin({ users: initialUsers, currentUserId }: Props
                     {new Date(user.createdAt).toLocaleDateString("fr-FR")}
                   </td>
                   <td style={{ padding: "0.875rem 1rem", display: "flex", gap: "0.75rem" }}>
+                    <button
+                      onClick={() => editingId === user.id ? setEditingId(null) : startEdit(user)}
+                      style={{ fontSize: "0.75rem", color: "var(--color-midnight)", background: "none", border: "none", cursor: "pointer" }}
+                    >
+                      {editingId === user.id ? "Annuler" : "Éditer"}
+                    </button>
                     {user.id !== currentUserId && (
-                      <>
-                        <button
-                          onClick={() => editingId === user.id ? setEditingId(null) : startEdit(user)}
-                          style={{ fontSize: "0.75rem", color: "var(--color-midnight)", background: "none", border: "none", cursor: "pointer" }}
-                        >
-                          {editingId === user.id ? "Annuler" : "Éditer"}
-                        </button>
-                        <button
-                          onClick={() => deleteUser(user.id)}
-                          style={{ fontSize: "0.75rem", color: "var(--color-burgundy)", background: "none", border: "none", cursor: "pointer" }}
-                        >
-                          Supprimer
-                        </button>
-                      </>
+                      <button
+                        onClick={() => deleteUser(user.id)}
+                        style={{ fontSize: "0.75rem", color: "var(--color-burgundy)", background: "none", border: "none", cursor: "pointer" }}
+                      >
+                        Supprimer
+                      </button>
                     )}
                   </td>
                 </tr>
@@ -278,13 +276,15 @@ export default function UsersAdmin({ users: initialUsers, currentUserId }: Props
                             </ul>
                           )}
                         </div>
-                        <div>
-                          <label style={labelStyle}>Rôle</label>
-                          <select value={editForm.role} onChange={(e) => setEditForm((f) => ({ ...f, role: e.target.value }))} className="form-input">
-                            <option value="EDITOR">Éditeur</option>
-                            <option value="ADMIN">Administrateur</option>
-                          </select>
-                        </div>
+                        {editingId !== currentUserId && (
+                          <div>
+                            <label style={labelStyle}>Rôle</label>
+                            <select value={editForm.role} onChange={(e) => setEditForm((f) => ({ ...f, role: e.target.value }))} className="form-input">
+                              <option value="EDITOR">Éditeur</option>
+                              <option value="ADMIN">Administrateur</option>
+                            </select>
+                          </div>
+                        )}
                         <div style={{ paddingBottom: editForm.password.length > 0 ? "6.5rem" : "0" }}>
                           <button type="submit" disabled={saving} className="btn-primary" style={{ fontSize: "0.8rem", whiteSpace: "nowrap" }}>
                             {saving ? "…" : "Sauvegarder"}
