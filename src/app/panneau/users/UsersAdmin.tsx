@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { PASSWORD_RULES } from "@/utils/password";
 
@@ -214,8 +214,8 @@ export default function UsersAdmin({ users: initialUsers, currentUserId }: Props
           </thead>
           <tbody>
             {users.map((user) => (
-              <>
-                <tr key={user.id} style={{ borderBottom: editingId === user.id ? "none" : "1px solid #f0ece0" }}>
+              <Fragment key={user.id}>
+                <tr style={{ borderBottom: editingId === user.id ? "none" : "1px solid #f0ece0" }}>
                   <td style={{ padding: "0.875rem 1rem", fontSize: "0.9rem", color: "var(--color-midnight)", fontFamily: "var(--font-display)" }}>
                     {user.name}
                     {user.id === currentUserId && (
@@ -295,7 +295,7 @@ export default function UsersAdmin({ users: initialUsers, currentUserId }: Props
                     </td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>
