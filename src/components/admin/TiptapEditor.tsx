@@ -8,7 +8,7 @@ import Youtube from "@tiptap/extension-youtube";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
 
 interface Props {
   content: string;
@@ -68,6 +68,11 @@ function ToolbarSeparator() {
 }
 
 export default function TiptapEditor({ content, onChange, placeholder }: Props) {
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const docInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingDoc, setUploadingDoc] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -118,11 +123,37 @@ export default function TiptapEditor({ content, onChange, placeholder }: Props) 
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   }, [editor]);
 
-  const addImage = useCallback(() => {
+  const handleImageFile = useCallback(async (file: File) => {
     if (!editor) return;
-    const url = window.prompt("URL de l'image");
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
+    setUploadingImage(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const res = await fetch("/api/media/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (res.ok) {
+        editor.chain().focus().setImage({ src: data.url }).run();
+      }
+    } finally {
+      setUploadingImage(false);
+    }
+  }, [editor]);
+
+  const handleDocFile = useCallback(async (file: File) => {
+    if (!editor) return;
+    setUploadingDoc(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const res = await fetch("/api/media/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (res.ok) {
+        editor.chain().focus().insertContent(
+          `<a href="${data.url}" target="_blank" rel="noopener noreferrer">${file.name}</a>`
+        ).run();
+      }
+    } finally {
+      setUploadingDoc(false);
     }
   }, [editor]);
 
@@ -292,10 +323,16 @@ export default function TiptapEditor({ content, onChange, placeholder }: Props) 
           🔗
         </ToolbarButton>
         <ToolbarButton
-          onClick={addImage}
+          onClick={() => imageInputRef.current?.click()}
           title="Insérer une image"
         >
-          🖼
+          {uploadingImage ? "…" : "🖼"}
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => docInputRef.current?.click()}
+          title="Insérer un document"
+        >
+          {uploadingDoc ? "…" : "📎"}
         </ToolbarButton>
         <ToolbarButton
           onClick={addYoutube}
@@ -331,6 +368,21 @@ export default function TiptapEditor({ content, onChange, placeholder }: Props) 
           fontFamily: "var(--font-body)",
           lineHeight: 1.8,
         }}
+      />
+
+      <input
+        ref={imageInputRef}
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageFile(f); e.target.value = ""; }}
+      />
+      <input
+        ref={docInputRef}
+        type="file"
+        accept=".pdf,.doc,.docx"
+        style={{ display: "none" }}
+        onChange={(e) => { const f = e.target.files?.[0]; if (f) handleDocFile(f); e.target.value = ""; }}
       />
 
       <style>{`
