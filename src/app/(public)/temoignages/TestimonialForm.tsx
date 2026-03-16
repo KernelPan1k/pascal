@@ -54,9 +54,6 @@ export default function TestimonialForm() {
           role: form.role || undefined,
           content: form.content,
           honeypot: form.honeypot,
-          captchaA: captcha!.a,
-          captchaB: captcha!.b,
-          captchaAnswer: form.captchaAnswer,
         }),
       });
 
@@ -185,16 +182,19 @@ export default function TestimonialForm() {
           <textarea
             id="content"
             required
+            minLength={10}
             value={form.content}
             onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
             className="form-input"
             rows={5}
-            placeholder="Partagez votre expérience avec l'œuvre de Pascal Mathieu…"
+            placeholder="Partagez votre expérience avec l'œuvre de Pascal…"
             maxLength={1000}
             style={{ resize: "vertical" }}
           />
-          <p style={{ fontSize: "0.75rem", color: "var(--color-text-light)", marginTop: "0.3rem" }}>
-            {form.content.length}/1000 caractères
+          <p style={{ fontSize: "0.75rem", color: form.content.length > 0 && form.content.length < 10 ? "var(--color-burgundy)" : "var(--color-text-light)", marginTop: "0.3rem" }}>
+            {form.content.length < 10 && form.content.length > 0
+              ? `${form.content.length}/10 caractères minimum`
+              : `${form.content.length}/1000 caractères`}
           </p>
         </div>
 
