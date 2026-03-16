@@ -185,7 +185,7 @@ export default async function AdminDashboard() {
                 }}
               >
                 <Link
-                  href={`/admin/articles/${article.id}/edit`}
+                  href={`/panneau/articles/${article.id}/edit`}
                   style={{
                     fontSize: "0.875rem",
                     color: "var(--color-text)",

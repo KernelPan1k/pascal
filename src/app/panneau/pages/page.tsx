@@ -79,7 +79,7 @@ export default async function AdminPagesPage() {
                 </td>
                 <td style={{ padding: "0.875rem 1rem" }}>
                   <Link
-                    href={`/admin/pages/${page.slug}/edit`}
+                    href={`/panneau/pages/${page.slug}/edit`}
                     style={{
                       fontSize: "0.75rem",
                       color: "var(--color-burgundy)",

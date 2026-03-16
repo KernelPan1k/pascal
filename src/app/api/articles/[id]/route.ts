@@ -49,7 +49,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
   }
 
   // Only the author or an admin can edit
-  if (existing.authorId !== session.user.id && session.user.role !== "ADMIN") {
+  if (existing.authorId !== session.user.id && !["ADMIN","EDITOR"].includes(session.user.role ?? "")) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
   }
 
@@ -102,7 +102,7 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
     return NextResponse.json({ error: "Article introuvable" }, { status: 404 });
   }
 
-  if (existing.authorId !== session.user.id && session.user.role !== "ADMIN") {
+  if (existing.authorId !== session.user.id && !["ADMIN","EDITOR"].includes(session.user.role ?? "")) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
   }
 

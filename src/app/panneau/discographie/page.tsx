@@ -117,7 +117,7 @@ export default async function AdminDiscographiePage() {
                   Voir ↗
                 </Link>
                 <Link
-                  href={`/admin/discographie/${album.id}/edit`}
+                  href={`/panneau/discographie/${album.id}/edit`}
                   style={{ fontSize: "0.75rem", color: "var(--color-burgundy)", textDecoration: "none" }}
                 >
                   Éditer

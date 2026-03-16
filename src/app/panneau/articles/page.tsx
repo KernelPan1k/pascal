@@ -179,7 +179,7 @@ export default async function AdminArticlesPage({ searchParams }: Props) {
                 >
                   <td style={{ padding: "0.875rem 1rem" }}>
                     <Link
-                      href={`/admin/articles/${article.id}/edit`}
+                      href={`/panneau/articles/${article.id}/edit`}
                       style={{
                         fontFamily: "var(--font-display)",
                         fontSize: "0.9rem",
@@ -240,7 +240,7 @@ export default async function AdminArticlesPage({ searchParams }: Props) {
                   </td>
                   <td style={{ padding: "0.875rem 1rem" }}>
                     <Link
-                      href={`/admin/articles/${article.id}/edit`}
+                      href={`/panneau/articles/${article.id}/edit`}
                       style={{
                         fontSize: "0.75rem",
                         color: "var(--color-burgundy)",
@@ -270,7 +270,7 @@ export default async function AdminArticlesPage({ searchParams }: Props) {
         >
           {page > 1 && (
             <Link
-              href={`/admin/articles?page=${page - 1}${search ? `&search=${search}` : ""}`}
+              href={`/panneau/articles?page=${page - 1}${search ? `&search=${search}` : ""}`}
               style={{
                 padding: "0.5rem 0.875rem",
                 border: "1px solid #e8e0cc",
@@ -285,7 +285,7 @@ export default async function AdminArticlesPage({ searchParams }: Props) {
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
             <Link
               key={p}
-              href={`/admin/articles?page=${p}${search ? `&search=${search}` : ""}`}
+              href={`/panneau/articles?page=${p}${search ? `&search=${search}` : ""}`}
               style={{
                 padding: "0.5rem 0.875rem",
                 border: "1px solid #e8e0cc",
@@ -300,7 +300,7 @@ export default async function AdminArticlesPage({ searchParams }: Props) {
           ))}
           {page < totalPages && (
             <Link
-              href={`/admin/articles?page=${page + 1}${search ? `&search=${search}` : ""}`}
+              href={`/panneau/articles?page=${page + 1}${search ? `&search=${search}` : ""}`}
               style={{
                 padding: "0.5rem 0.875rem",
                 border: "1px solid #e8e0cc",
