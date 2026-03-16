@@ -100,7 +100,7 @@ export default function PublicFooter() {
               Contact
             </h4>
             <p style={{ fontSize: "0.875rem", color: "rgba(240, 236, 224, 0.7)" }}>
-              contact@pascalmathieu.com
+              contact@pascalmathieu-artiste.fr
             </p>
           </div>
         </div>
