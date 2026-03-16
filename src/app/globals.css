@@ -206,6 +206,28 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(to right, transparent, var(--color-gold), transparent);
 }
 
+/* Admin overrides — redefine color variables for light background */
+.admin-main {
+  --color-text: #1e1e2e;
+  --color-text-light: #6b6880;
+  --color-midnight: #07070f;
+}
+
+.admin-main .form-input {
+  background: #ffffff;
+  border: 1px solid #d1c9b8;
+  color: #1e1e2e;
+}
+
+.admin-main .form-input:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15);
+}
+
+.admin-main .form-input::placeholder {
+  color: #9e9580;
+}
+
 /* Tiptap editor styles */
 .tiptap-wrapper .ProseMirror {
   min-height: 300px;

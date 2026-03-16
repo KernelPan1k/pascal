@@ -19,6 +19,7 @@ export default async function AdminLayout({
         userName={session.user.name || session.user.email}
       />
       <main
+        className="admin-main"
         style={{
           flex: 1,
           backgroundColor: "#f8f7f4",
