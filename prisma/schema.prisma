@@ -3,31 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
-}
-
-enum Role {
-  ADMIN
-  EDITOR
-}
-
-enum ArticleStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-enum TestimonialStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
-enum MediaType {
-  IMAGE
-  AUDIO
-  DOCUMENT
 }
 
 model User {
@@ -35,7 +12,7 @@ model User {
   email     String    @unique
   password  String
   name      String
-  role      Role      @default(EDITOR)
+  role      String    @default("EDITOR")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   articles  Article[]
@@ -49,12 +26,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -81,24 +58,24 @@ model Page {
   id        String   @id @default(cuid())
   slug      String   @unique
   title     String
-  content   String   @db.Text
+  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Article {
-  id          String        @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
-  slug        String        @unique
-  excerpt     String?       @db.Text
-  content     String        @db.Text
-  status      ArticleStatus @default(DRAFT)
+  slug        String    @unique
+  excerpt     String?
+  content     String
+  status      String    @default("DRAFT")
   coverImage  String?
-  author      User          @relation(fields: [authorId], references: [id])
+  author      User      @relation(fields: [authorId], references: [id])
   authorId    String
   publishedAt DateTime?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Album {
@@ -106,7 +83,7 @@ model Album {
   title        String
   slug         String   @unique
   year         Int
-  description  String   @db.Text
+  description  String
   coverImage   String
   audioPreview String?
   order        Int      @default(0)
@@ -115,28 +92,28 @@ model Album {
 }
 
 model Testimonial {
-  id        String            @id @default(cuid())
+  id        String   @id @default(cuid())
   author    String
   role      String?
-  content   String            @db.Text
-  status    TestimonialStatus @default(PENDING)
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
+  content   String
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Media {
-  id        String    @id @default(cuid())
+  id        String   @id @default(cuid())
   filename  String
   url       String
-  type      MediaType
+  type      String
   size      Int
   mimeType  String
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
 }
 
 model SiteSettings {
   id        String   @id @default(cuid())
   key       String   @unique
-  value     String   @db.Text
+  value     String
   updatedAt DateTime @updatedAt
 }

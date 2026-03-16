@@ -42,5 +42,9 @@ next-env.d.ts
 # prisma generated
 /src/generated/
 
+# sqlite databases
+prisma/*.db
+prisma/*.db-journal
+
 # uploads
 /public/uploads/

@@ -1,4 +1,4 @@
-import { PrismaClient, Role } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -20,7 +20,7 @@ async function main() {
   if (!existingAdmin) {
     const hashedPassword = await bcrypt.hash(adminPassword, 12);
     await prisma.user.create({
-      data: { email: adminEmail, password: hashedPassword, name: "Pascal Mathieu", role: Role.ADMIN },
+      data: { email: adminEmail, password: hashedPassword, name: "Pascal Mathieu", role: "ADMIN" },
     });
     console.log(`Admin créé : ${adminEmail}`);
   } else {
@@ -192,7 +192,7 @@ async function main() {
 
   // ─── Articles ──────────────────────────────────────────────────────────────
   const admin = await prisma.user.findFirst({
-    where: { role: Role.ADMIN },
+    where: { role: "ADMIN" },
     orderBy: { id: "asc" },
   });
   if (admin) {
