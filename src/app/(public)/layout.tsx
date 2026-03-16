@@ -1,5 +1,6 @@
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
+import AdminBar from "@/components/public/AdminBar";
 
 export default function PublicLayout({
   children,
@@ -14,6 +15,7 @@ export default function PublicLayout({
         minHeight: "100vh",
       }}
     >
+      <AdminBar />
       <PublicNav />
       <main style={{ flex: 1 }}>{children}</main>
       <PublicFooter />

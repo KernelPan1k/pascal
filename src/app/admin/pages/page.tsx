@@ -28,6 +28,23 @@ export default async function AdminPagesPage() {
             </tr>
           </thead>
           <tbody>
+            {/* Page d'accueil — settings dédiés */}
+            <tr style={{ borderBottom: "1px solid #f0ece0" }}>
+              <td style={{ padding: "0.875rem 1rem", fontFamily: "var(--font-display)", fontSize: "0.9rem", color: "var(--color-midnight)" }}>
+                Page d&apos;accueil
+              </td>
+              <td style={{ padding: "0.875rem 1rem", fontFamily: "monospace", fontSize: "0.8rem", color: "var(--color-text-light)" }}>
+                /
+              </td>
+              <td style={{ padding: "0.875rem 1rem", fontSize: "0.8rem", color: "var(--color-text-light)" }}>
+                —
+              </td>
+              <td style={{ padding: "0.875rem 1rem" }}>
+                <Link href="/admin/pages/accueil" style={{ fontSize: "0.75rem", color: "var(--color-burgundy)", textDecoration: "none" }}>
+                  Éditer
+                </Link>
+              </td>
+            </tr>
             {pages.map((page) => (
               <tr key={page.id} style={{ borderBottom: "1px solid #f0ece0" }}>
                 <td

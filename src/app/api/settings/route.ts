@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
@@ -37,6 +38,8 @@ export async function PUT(req: NextRequest) {
       })
     )
   );
+
+  revalidatePath("/");
 
   return NextResponse.json(
     Object.fromEntries(updates.map((s) => [s.key, s.value]))

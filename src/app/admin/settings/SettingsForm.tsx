@@ -6,25 +6,82 @@ interface Props {
   settings: Record<string, string>;
 }
 
-const SETTING_LABELS: Record<string, { label: string; description: string; multiline?: boolean }> = {
+type SettingMeta = { label: string; description: string; multiline?: boolean };
+type SettingGroup = { title: string; keys: string[] };
+
+const SETTING_LABELS: Record<string, SettingMeta> = {
+  // Général
   site_title: { label: "Titre du site", description: "Affiché dans l'onglet du navigateur." },
   site_description: {
     label: "Description du site",
     description: "Utilisée pour le SEO et les réseaux sociaux.",
     multiline: true,
   },
-  home_intro: {
-    label: "Texte d'introduction",
-    description: "Court paragraphe affiché sur la page d'accueil.",
-    multiline: true,
-  },
-  home_quote: {
-    label: "Citation / poème",
-    description: "Citation ou extrait poétique affiché sur la page d'accueil.",
-    multiline: true,
-  },
   contact_email: { label: "Email de contact", description: "Email affiché dans le pied de page." },
+
+  // Page d'accueil — Hero
+  home_intro: {
+    label: "Héro — Introduction",
+    description: "Paragraphe sous le titre dans la section héro.",
+    multiline: true,
+  },
+
+  // Page d'accueil — Portrait
+  home_portrait_quote: {
+    label: "Portrait — Citation en italique",
+    description: "Phrase mise en avant, en italique, dans la section Portrait.",
+    multiline: true,
+  },
+  home_portrait_text: {
+    label: "Portrait — Texte",
+    description: "Paragraphe de présentation dans la section Portrait.",
+    multiline: true,
+  },
+
+  // Page d'accueil — Trois univers
+  home_chanteur_text: {
+    label: "Univers — Le Chanteur",
+    description: "Texte du bloc Chanteur.",
+    multiline: true,
+  },
+  home_dessinateur_text: {
+    label: "Univers — Le Dessinateur",
+    description: "Texte du bloc Dessinateur.",
+    multiline: true,
+  },
+  home_poete_text: {
+    label: "Univers — Le Poète",
+    description: "Texte du bloc Poète.",
+    multiline: true,
+  },
+
+  // Page d'accueil — Ancrage
+  home_region_quote: {
+    label: "Région — Phrase en italique",
+    description: "Citation mise en avant dans la section Besançon & alentours.",
+    multiline: true,
+  },
+  home_region_text: {
+    label: "Région — Texte",
+    description: "Paragraphe de la section Besançon & alentours.",
+    multiline: true,
+  },
+
+  // Page d'accueil — CTA
+  home_cta_title: {
+    label: "CTA — Titre",
+    description: "Titre de la section d'appel à l'action en bas de page.",
+  },
+  home_cta_text: {
+    label: "CTA — Texte",
+    description: "Paragraphe sous le titre du CTA.",
+    multiline: true,
+  },
 };
+
+const SETTING_GROUPS: SettingGroup[] = [
+  { title: "Général", keys: ["site_title", "site_description", "contact_email"] },
+];
 
 export default function SettingsForm({ settings: initialSettings }: Props) {
   const [settings, setSettings] = useState(initialSettings);
@@ -56,91 +113,73 @@ export default function SettingsForm({ settings: initialSettings }: Props) {
     setSaving(false);
   };
 
-  const knownKeys = Object.keys(SETTING_LABELS);
-  const unknownKeys = Object.keys(settings).filter((k) => !knownKeys.includes(k));
+  const renderField = (key: string) => {
+    const meta = SETTING_LABELS[key];
+    if (!meta) return null;
+    return (
+      <div key={key}>
+        <label
+          htmlFor={key}
+          style={{
+            display: "block",
+            fontSize: "0.875rem",
+            fontFamily: "var(--font-display)",
+            fontWeight: 600,
+            color: "var(--color-midnight)",
+            marginBottom: "0.3rem",
+          }}
+        >
+          {meta.label}
+        </label>
+        <p style={{ fontSize: "0.775rem", color: "var(--color-text-light)", marginBottom: "0.4rem" }}>
+          {meta.description}
+        </p>
+        {meta.multiline ? (
+          <textarea
+            id={key}
+            value={settings[key] ?? ""}
+            onChange={(e) => setSettings((s) => ({ ...s, [key]: e.target.value }))}
+            className="form-input"
+            rows={4}
+            style={{ resize: "vertical" }}
+          />
+        ) : (
+          <input
+            id={key}
+            type="text"
+            value={settings[key] ?? ""}
+            onChange={(e) => setSettings((s) => ({ ...s, [key]: e.target.value }))}
+            className="form-input"
+          />
+        )}
+      </div>
+    );
+  };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: "640px" }}>
-      <div style={{ display: "grid", gap: "1.5rem" }}>
-        {knownKeys.map((key) => {
-          const meta = SETTING_LABELS[key];
-          return (
-            <div key={key}>
-              <label
-                htmlFor={key}
-                style={{
-                  display: "block",
-                  fontSize: "0.875rem",
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 600,
-                  color: "var(--color-midnight)",
-                  marginBottom: "0.3rem",
-                }}
-              >
-                {meta.label}
-              </label>
-              <p style={{ fontSize: "0.775rem", color: "var(--color-text-light)", marginBottom: "0.4rem" }}>
-                {meta.description}
-              </p>
-              {meta.multiline ? (
-                <textarea
-                  id={key}
-                  value={settings[key] ?? ""}
-                  onChange={(e) =>
-                    setSettings((s) => ({ ...s, [key]: e.target.value }))
-                  }
-                  className="form-input"
-                  rows={4}
-                  style={{ resize: "vertical" }}
-                />
-              ) : (
-                <input
-                  id={key}
-                  type="text"
-                  value={settings[key] ?? ""}
-                  onChange={(e) =>
-                    setSettings((s) => ({ ...s, [key]: e.target.value }))
-                  }
-                  className="form-input"
-                />
-              )}
+    <form onSubmit={handleSubmit} style={{ maxWidth: "700px" }}>
+      <div style={{ display: "grid", gap: "2.5rem" }}>
+        {SETTING_GROUPS.map((group) => (
+          <div key={group.title}>
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "0.8rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                color: "var(--color-text-light)",
+                borderBottom: "1px solid #e8e0cc",
+                paddingBottom: "0.5rem",
+                marginBottom: "1.25rem",
+              }}
+            >
+              {group.title}
+            </h2>
+            <div style={{ display: "grid", gap: "1.25rem" }}>
+              {group.keys.map(renderField)}
             </div>
-          );
-        })}
-
-        {unknownKeys.length > 0 && (
-          <>
-            <hr style={{ border: "none", borderTop: "1px solid #e8e0cc" }} />
-            <p style={{ fontSize: "0.8rem", color: "var(--color-text-light)", fontStyle: "italic" }}>
-              Paramètres additionnels
-            </p>
-            {unknownKeys.map((key) => (
-              <div key={key}>
-                <label
-                  htmlFor={key}
-                  style={{
-                    display: "block",
-                    fontSize: "0.8rem",
-                    fontFamily: "monospace",
-                    color: "var(--color-text-light)",
-                    marginBottom: "0.3rem",
-                  }}
-                >
-                  {key}
-                </label>
-                <input
-                  id={key}
-                  type="text"
-                  value={settings[key] ?? ""}
-                  onChange={(e) =>
-                    setSettings((s) => ({ ...s, [key]: e.target.value }))
-                  }
-                  className="form-input"
-                />
-              </div>
-            ))}
-          </>
-        )}
+          </div>
+        ))}
 
         {error && (
           <p

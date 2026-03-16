@@ -46,17 +46,6 @@ async function main() {
   });
   console.log(`Page created/found: ${bioPage.slug}`);
 
-  // Create home page content
-  const homePage = await prisma.page.upsert({
-    where: { slug: "home" },
-    update: {},
-    create: {
-      slug: "home",
-      title: "Accueil",
-      content: `<p>Bienvenue dans l'univers de Pascal Mathieu, artiste pluriel né à Besançon. Ici, les mots chantent, les images parlent et la poésie trace son chemin entre ombre et lumière.</p>`,
-    },
-  });
-  console.log(`Page created/found: ${homePage.slug}`);
 
   // Create site settings
   const settings = [
@@ -69,17 +58,61 @@ async function main() {
       value:
         "Site officiel de Pascal Mathieu, artiste pluriel de Besançon. Découvrez son univers musical, poétique et graphique.",
     },
+    { key: "contact_email", value: "contact@pascalmathieu.com" },
+    // Page d'accueil — Héro
     {
       key: "home_intro",
       value:
-        "Bienvenue dans l'univers de Pascal Mathieu, artiste pluriel né à Besançon. Ici, les mots chantent, les images parlent et la poésie trace son chemin entre ombre et lumière.",
+        "Artiste pluriel ancré dans la terre franc-comtoise, Pascal Mathieu tisse depuis plus de trente ans un univers où la chanson, le dessin et la poésie se répondent et s'enrichissent mutuellement.",
+    },
+    // Page d'accueil — Portrait
+    {
+      key: "home_portrait_quote",
+      value:
+        "« Il y a dans la voix de Pascal Mathieu quelque chose d'indéfinissable — une façon de poser les mots qui fait résonner le silence autant que les notes. »",
     },
     {
-      key: "home_quote",
+      key: "home_portrait_text",
       value:
-        "« La poésie est ce qui reste quand on a tout dit. »\n— Pascal Mathieu",
+        "Né à Besançon, Pascal Mathieu grandit au contact d'une région dont il absorbe la rudesse douce, les paysages de brume et de forêt, les silences habités. Ce terreau devient la matière première d'une œuvre singulière, traversée par l'amour des mots, le soin du trait et l'exigence de la mélodie.",
     },
-    { key: "contact_email", value: "contact@pascalmathieu.com" },
+    // Page d'accueil — Trois univers
+    {
+      key: "home_chanteur_text",
+      value:
+        "Une voix grave et habitée, un répertoire de chansons originales en français qui puisent dans la tradition de la chanson à texte. Sur scène comme en studio, Pascal Mathieu fait du temps suspendu son territoire.",
+    },
+    {
+      key: "home_dessinateur_text",
+      value:
+        "Le trait noir sur papier blanc — Pascal dessine depuis l'enfance des visages, des paysages intérieurs, des fragments de monde. Ses carnets sont le journal d'une sensibilité en éveil constant.",
+    },
+    {
+      key: "home_poete_text",
+      value:
+        "Les mots débordent la mélodie. Pascal Mathieu écrit des textes qui circulent entre la chanson et le poème, habités par une quête du juste — celui qui dit sans trahir, qui nomme sans figer.",
+    },
+    // Page d'accueil — Région
+    {
+      key: "home_region_quote",
+      value:
+        "La Franche-Comté n'est pas un décor pour Pascal Mathieu — c'est une substance. Les lumières de la Boucle, les forêts du Doubs, la lenteur des saisons : tout cela transpire dans l'œuvre, sans folklore ni cliché.",
+    },
+    {
+      key: "home_region_text",
+      value:
+        "Depuis plus de trente ans, il construit ici une œuvre discrète et persistante, loin des modes, fidèle à une certaine idée de l'artisanat artistique — où chaque chanson, chaque dessin, chaque poème est travaillé jusqu'à trouver sa forme juste.",
+    },
+    // Page d'accueil — CTA
+    {
+      key: "home_cta_title",
+      value: "Entrer dans l'univers",
+    },
+    {
+      key: "home_cta_text",
+      value:
+        "Concerts, albums, textes et dessins — tout est ici. Prenez le temps de vous perdre dans cet espace.",
+    },
   ];
 
   for (const setting of settings) {

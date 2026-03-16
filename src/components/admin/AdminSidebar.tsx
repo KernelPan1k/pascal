@@ -153,12 +153,13 @@ export default function AdminSidebar({ userRole, userName }: Props) {
             target="_blank"
             style={{
               fontSize: "0.7rem",
-              color: "rgba(240, 236, 224, 0.5)",
+              color: "var(--color-gold)",
               textDecoration: "none",
               letterSpacing: "0.05em",
+              opacity: 0.8,
             }}
           >
-            ↗ Site
+            ↗ Voir le site
           </Link>
           <span style={{ color: "rgba(240, 236, 224, 0.2)" }}>|</span>
           <button

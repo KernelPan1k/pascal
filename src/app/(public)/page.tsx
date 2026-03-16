@@ -1,49 +1,30 @@
 import Link from "next/link";
-import Image from "next/image";
 import { prisma } from "@/lib/prisma";
-import { sanitizeHtml } from "@/utils/sanitize";
 
 export const revalidate = 60;
 
-async function getHomeData() {
-  const [articles, albums, testimonials, settings] = await Promise.all([
-    prisma.article.findMany({
-      where: { status: "PUBLISHED" },
-      orderBy: { publishedAt: "desc" },
-      take: 3,
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        excerpt: true,
-        coverImage: true,
-        publishedAt: true,
-      },
-    }),
-    prisma.album.findMany({
-      orderBy: { order: "asc" },
-      take: 1,
-    }),
-    prisma.testimonial.findMany({
-      where: { status: "APPROVED" },
-      orderBy: { createdAt: "desc" },
-      take: 3,
-    }),
-    prisma.siteSettings.findMany({
-      where: {
-        key: { in: ["home_intro", "home_quote", "site_title"] },
-      },
-    }),
-  ]);
+const HOME_KEYS = [
+  "home_intro",
+  "home_portrait_quote",
+  "home_portrait_text",
+  "home_chanteur_text",
+  "home_dessinateur_text",
+  "home_poete_text",
+  "home_region_quote",
+  "home_region_text",
+  "home_cta_title",
+  "home_cta_text",
+];
 
-  const settingsMap = Object.fromEntries(settings.map((s) => [s.key, s.value]));
-
-  return { articles, albums, testimonials, settings: settingsMap };
+async function getSettings() {
+  const settings = await prisma.siteSettings.findMany({
+    where: { key: { in: HOME_KEYS } },
+  });
+  return Object.fromEntries(settings.map((s) => [s.key, s.value]));
 }
 
 export default async function HomePage() {
-  const { articles, albums, testimonials, settings } = await getHomeData();
-  const featuredAlbum = albums[0] || null;
+  const settings = await getSettings();
 
   return (
     <>
@@ -58,7 +39,6 @@ export default async function HomePage() {
           overflow: "hidden",
         }}
       >
-        {/* Decorative background lines */}
         <div
           aria-hidden="true"
           style={{
@@ -109,25 +89,23 @@ export default async function HomePage() {
               fontStyle: "italic",
               color: "var(--color-gold)",
               letterSpacing: "0.15em",
-              marginBottom: "2rem",
+              marginBottom: "2.5rem",
             }}
           >
             Chanteur · Dessinateur · Poète
           </p>
 
-          {settings.home_intro && (
-            <p
-              style={{
-                fontSize: "1.05rem",
-                color: "rgba(240, 236, 224, 0.8)",
-                lineHeight: 1.8,
-                maxWidth: "600px",
-                margin: "0 auto 2.5rem",
-              }}
-            >
-              {settings.home_intro}
-            </p>
-          )}
+          <p
+            style={{
+              fontSize: "1.05rem",
+              color: "rgba(240, 236, 224, 0.8)",
+              lineHeight: 1.9,
+              maxWidth: "600px",
+              margin: "0 auto 3rem",
+            }}
+          >
+            {settings.home_intro}
+          </p>
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link
@@ -143,7 +121,6 @@ export default async function HomePage() {
                 textTransform: "uppercase",
                 padding: "0.875rem 2rem",
                 textDecoration: "none",
-                transition: "background-color 0.2s, transform 0.2s",
               }}
             >
               Discographie
@@ -162,7 +139,6 @@ export default async function HomePage() {
                 padding: "0.875rem 2rem",
                 textDecoration: "none",
                 border: "1px solid rgba(201, 169, 110, 0.4)",
-                transition: "border-color 0.2s, color 0.2s",
               }}
             >
               Biographie
@@ -171,386 +147,295 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Latest Articles */}
-      {articles.length > 0 && (
-        <section
+      {/* Portrait */}
+      <section
+        style={{
+          padding: "6rem 1.5rem",
+          backgroundColor: "var(--color-deep)",
+          color: "var(--color-cream)",
+        }}
+      >
+        <div
           style={{
-            padding: "5rem 1.5rem",
-            backgroundColor: "var(--color-deep)",
-          }}
-        >
-          <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-              <p
-                style={{
-                  fontSize: "0.75rem",
-                  letterSpacing: "0.25em",
-                  textTransform: "uppercase",
-                  color: "var(--color-gold)",
-                  marginBottom: "0.75rem",
-                }}
-              >
-                Actualités
-              </p>
-              <h2
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-                  color: "var(--color-cream-bright)",
-                }}
-              >
-                Derniers Articles
-              </h2>
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                gap: "2rem",
-              }}
-            >
-              {articles.map((article) => (
-                <article
-                  key={article.id}
-                  style={{
-                    backgroundColor: "var(--color-surface)",
-                    border: "1px solid var(--color-border)",
-                    overflow: "hidden",
-                    transition: "transform 0.2s, box-shadow 0.2s",
-                  }}
-                >
-                  {article.coverImage && (
-                    <div style={{ position: "relative", aspectRatio: "16/9", overflow: "hidden" }}>
-                      <Image
-                        src={article.coverImage}
-                        alt={article.title}
-                        fill
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
-                  )}
-                  <div style={{ padding: "1.5rem" }}>
-                    <p
-                      style={{
-                        fontSize: "0.75rem",
-                        letterSpacing: "0.15em",
-                        textTransform: "uppercase",
-                        color: "var(--color-gold)",
-                        marginBottom: "0.5rem",
-                      }}
-                    >
-                      {article.publishedAt
-                        ? new Date(article.publishedAt).toLocaleDateString("fr-FR", {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                          })
-                        : ""}
-                    </p>
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontSize: "1.25rem",
-                        color: "var(--color-cream-bright)",
-                        marginBottom: "0.75rem",
-                        lineHeight: 1.3,
-                      }}
-                    >
-                      {article.title}
-                    </h3>
-                    {article.excerpt && (
-                      <p
-                        style={{
-                          fontSize: "0.9rem",
-                          color: "var(--color-text-light)",
-                          lineHeight: 1.7,
-                          marginBottom: "1rem",
-                        }}
-                      >
-                        {article.excerpt}
-                      </p>
-                    )}
-                    <Link
-                      href={`/articles/${article.slug}`}
-                      style={{
-                        fontSize: "0.8rem",
-                        letterSpacing: "0.1em",
-                        textTransform: "uppercase",
-                        color: "var(--color-burgundy)",
-                        textDecoration: "none",
-                        borderBottom: "1px solid var(--color-gold)",
-                        paddingBottom: "2px",
-                      }}
-                    >
-                      Lire la suite
-                    </Link>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
-              <Link href="/articles" className="btn-secondary">
-                Tous les articles
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Featured Album */}
-      {featuredAlbum && (
-        <section
-          style={{
-            padding: "5rem 1.5rem",
-            backgroundColor: "var(--color-surface)",
-            color: "var(--color-cream)",
-          }}
-        >
-          <div
-            style={{
-              maxWidth: "1200px",
-              margin: "0 auto",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "3rem",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <div style={{ position: "relative", aspectRatio: "1", maxWidth: "380px" }}>
-                <Image
-                  src={featuredAlbum.coverImage}
-                  alt={featuredAlbum.title}
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-            </div>
-            <div>
-              <p
-                style={{
-                  fontSize: "0.75rem",
-                  letterSpacing: "0.25em",
-                  textTransform: "uppercase",
-                  color: "var(--color-gold)",
-                  marginBottom: "0.75rem",
-                }}
-              >
-                Discographie
-              </p>
-              <h2
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-                  marginBottom: "0.5rem",
-                  lineHeight: 1.2,
-                }}
-              >
-                {featuredAlbum.title}
-              </h2>
-              <p
-                style={{
-                  color: "var(--color-gold)",
-                  fontFamily: "var(--font-display)",
-                  fontStyle: "italic",
-                  fontSize: "1.1rem",
-                  marginBottom: "1.5rem",
-                }}
-              >
-                {featuredAlbum.year}
-              </p>
-              <div
-                className="prose-pascal"
-                style={{ color: "rgba(240, 236, 224, 0.8)", marginBottom: "2rem" }}
-                dangerouslySetInnerHTML={{
-                  __html: sanitizeHtml(featuredAlbum.description),
-                }}
-              />
-              <Link
-                href={`/discographie/${featuredAlbum.slug}`}
-                style={{
-                  display: "inline-block",
-                  backgroundColor: "var(--color-gold)",
-                  color: "var(--color-midnight)",
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 600,
-                  fontSize: "0.875rem",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  padding: "0.875rem 2rem",
-                  textDecoration: "none",
-                }}
-              >
-                Découvrir l&apos;album
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Quote */}
-      {settings.home_quote && (
-        <section
-          style={{
-            padding: "5rem 1.5rem",
-            backgroundColor: "var(--color-midnight)",
+            maxWidth: "760px",
+            margin: "0 auto",
             textAlign: "center",
           }}
         >
-          <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-            <div
+          <p
+            style={{
+              fontSize: "0.75rem",
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: "var(--color-gold)",
+              marginBottom: "2rem",
+            }}
+          >
+            ✦ Portrait ✦
+          </p>
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)",
+              fontStyle: "italic",
+              lineHeight: 1.9,
+              color: "rgba(240, 236, 224, 0.9)",
+              marginBottom: "2rem",
+            }}
+          >
+            {settings.home_portrait_quote}
+          </p>
+          <p
+            style={{
+              fontSize: "0.9rem",
+              lineHeight: 1.85,
+              color: "rgba(240, 236, 224, 0.65)",
+              maxWidth: "640px",
+              margin: "0 auto",
+            }}
+          >
+            {settings.home_portrait_text}
+          </p>
+        </div>
+      </section>
+
+      {/* Trois univers */}
+      <section
+        style={{
+          padding: "6rem 1.5rem",
+          backgroundColor: "var(--color-midnight)",
+          color: "var(--color-cream)",
+        }}
+      >
+        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+            <p
               style={{
-                fontSize: "4rem",
+                fontSize: "0.75rem",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
                 color: "var(--color-gold)",
-                opacity: 0.35,
-                lineHeight: 1,
                 marginBottom: "1rem",
-                fontFamily: "Georgia, serif",
               }}
             >
-              ❝
-            </div>
-            <blockquote
+              ✦ L'univers ✦
+            </p>
+            <h2
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)",
-                fontStyle: "italic",
+                fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
+                fontWeight: 700,
                 color: "var(--color-cream-bright)",
-                lineHeight: 1.7,
-                whiteSpace: "pre-line",
               }}
             >
-              {settings.home_quote}
-            </blockquote>
+              Trois arts, une même voix
+            </h2>
           </div>
-        </section>
-      )}
 
-      {/* Testimonials */}
-      {testimonials.length > 0 && (
-        <section
-          style={{
-            padding: "5rem 1.5rem",
-            backgroundColor: "var(--color-midnight)",
-            color: "var(--color-cream)",
-          }}
-        >
-          <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-              <p
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: "2px",
+            }}
+          >
+            {[
+              {
+                icon: "♬",
+                title: "Le Chanteur",
+                href: "/discographie",
+                text: settings.home_chanteur_text,
+                cta: "Voir la discographie",
+              },
+              {
+                icon: "✏",
+                title: "Le Dessinateur",
+                href: "/biographie",
+                text: settings.home_dessinateur_text,
+                cta: "Découvrir la biographie",
+              },
+              {
+                icon: "✦",
+                title: "Le Poète",
+                href: "/articles",
+                text: settings.home_poete_text,
+                cta: "Lire les articles",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
                 style={{
-                  fontSize: "0.75rem",
-                  letterSpacing: "0.25em",
-                  textTransform: "uppercase",
-                  color: "var(--color-gold)",
-                  marginBottom: "0.75rem",
+                  padding: "3rem 2.5rem",
+                  backgroundColor: "var(--color-surface)",
+                  borderTop: "2px solid var(--color-gold)",
                 }}
               >
-                Ce qu&apos;on dit
-              </p>
-              <h2
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-                }}
-              >
-                Témoignages
-              </h2>
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                gap: "2rem",
-              }}
-            >
-              {testimonials.map((t) => (
-                <div
-                  key={t.id}
+                <p
                   style={{
-                    padding: "2rem",
-                    border: "1px solid rgba(201, 169, 110, 0.2)",
-                    position: "relative",
+                    fontSize: "1.75rem",
+                    color: "var(--color-gold)",
+                    marginBottom: "1.25rem",
+                    opacity: 0.7,
                   }}
                 >
-                  <p
-                    style={{
-                      fontSize: "3rem",
-                      color: "var(--color-gold)",
-                      opacity: 0.3,
-                      position: "absolute",
-                      top: "1rem",
-                      left: "1.5rem",
-                      lineHeight: 1,
-                      fontFamily: "Georgia",
-                    }}
-                  >
-                    "
-                  </p>
-                  <p
-                    style={{
-                      fontStyle: "italic",
-                      lineHeight: 1.8,
-                      marginBottom: "1.5rem",
-                      paddingTop: "1.5rem",
-                      color: "rgba(240, 236, 224, 0.85)",
-                    }}
-                  >
-                    {t.content}
-                  </p>
-                  <div>
-                    <p
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontWeight: 600,
-                        color: "var(--color-gold)",
-                        fontSize: "0.95rem",
-                      }}
-                    >
-                      {t.author}
-                    </p>
-                    {t.role && (
-                      <p
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "rgba(240, 236, 224, 0.5)",
-                          marginTop: "0.25rem",
-                        }}
-                      >
-                        {t.role}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
-              <Link
-                href="/temoignages"
-                style={{
-                  display: "inline-block",
-                  backgroundColor: "transparent",
-                  color: "var(--color-cream)",
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 600,
-                  fontSize: "0.875rem",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  padding: "0.875rem 2rem",
-                  textDecoration: "none",
-                  border: "1px solid rgba(201, 169, 110, 0.4)",
-                }}
-              >
-                Voir tous les témoignages
-              </Link>
-            </div>
+                  {item.icon}
+                </p>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "1.35rem",
+                    color: "var(--color-cream-bright)",
+                    marginBottom: "1rem",
+                    fontWeight: 700,
+                  }}
+                >
+                  {item.title}
+                </h3>
+                <p
+                  style={{
+                    fontSize: "0.92rem",
+                    lineHeight: 1.85,
+                    color: "rgba(240, 236, 224, 0.65)",
+                    marginBottom: "1.75rem",
+                  }}
+                >
+                  {item.text}
+                </p>
+                <Link
+                  href={item.href}
+                  style={{
+                    fontSize: "0.75rem",
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "var(--color-gold)",
+                    textDecoration: "none",
+                    borderBottom: "1px solid rgba(201, 169, 110, 0.35)",
+                    paddingBottom: "2px",
+                  }}
+                >
+                  {item.cta} →
+                </Link>
+              </div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
+
+      {/* Ancrage géographique */}
+      <section
+        style={{
+          padding: "6rem 1.5rem",
+          backgroundColor: "var(--color-deep)",
+          color: "var(--color-cream)",
+          textAlign: "center",
+        }}
+      >
+        <div style={{ maxWidth: "700px", margin: "0 auto" }}>
+          <p
+            style={{
+              fontSize: "0.75rem",
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: "var(--color-gold)",
+              marginBottom: "2rem",
+            }}
+          >
+            ✦ Besançon & alentours ✦
+          </p>
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.05rem, 2.5vw, 1.25rem)",
+              fontStyle: "italic",
+              lineHeight: 1.9,
+              color: "rgba(240, 236, 224, 0.85)",
+              marginBottom: "2rem",
+            }}
+          >
+            {settings.home_region_quote}
+          </p>
+          <p
+            style={{
+              fontSize: "0.9rem",
+              lineHeight: 1.85,
+              color: "rgba(240, 236, 224, 0.55)",
+            }}
+          >
+            {settings.home_region_text}
+          </p>
+        </div>
+      </section>
+
+      {/* CTA contact */}
+      <section
+        style={{
+          padding: "5rem 1.5rem",
+          backgroundColor: "var(--color-midnight)",
+          textAlign: "center",
+          borderTop: "1px solid rgba(201, 169, 110, 0.1)",
+        }}
+      >
+        <div style={{ maxWidth: "560px", margin: "0 auto" }}>
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.5rem, 3.5vw, 2rem)",
+              color: "var(--color-cream-bright)",
+              marginBottom: "1rem",
+              fontWeight: 700,
+            }}
+          >
+            {settings.home_cta_title}
+          </h2>
+          <p
+            style={{
+              fontSize: "0.95rem",
+              color: "rgba(240, 236, 224, 0.6)",
+              lineHeight: 1.8,
+              marginBottom: "2.5rem",
+            }}
+          >
+            {settings.home_cta_text}
+          </p>
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+            <Link
+              href="/biographie"
+              style={{
+                display: "inline-block",
+                backgroundColor: "var(--color-gold)",
+                color: "var(--color-midnight)",
+                fontFamily: "var(--font-display)",
+                fontWeight: 600,
+                fontSize: "0.875rem",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                padding: "0.875rem 2rem",
+                textDecoration: "none",
+              }}
+            >
+              La biographie
+            </Link>
+            <Link
+              href="/articles"
+              style={{
+                display: "inline-block",
+                backgroundColor: "transparent",
+                color: "var(--color-cream)",
+                fontFamily: "var(--font-display)",
+                fontWeight: 600,
+                fontSize: "0.875rem",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                padding: "0.875rem 2rem",
+                textDecoration: "none",
+                border: "1px solid rgba(201, 169, 110, 0.4)",
+              }}
+            >
+              Les articles
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
