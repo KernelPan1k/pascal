@@ -33,8 +33,7 @@ export default function AdminLoginPage() {
       return;
     }
 
-    router.push("/panneau");
-    router.refresh();
+    window.location.href = "/panneau";
   };
 
   return (
