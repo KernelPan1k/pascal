@@ -218,7 +218,7 @@ export default async function HomePage() {
                 marginBottom: "1rem",
               }}
             >
-              ✦ L'univers ✦
+              ✦ L&apos;univers ✦
             </p>
             <h2
               style={{

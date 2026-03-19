@@ -107,7 +107,7 @@ export default async function TemoignagesPage() {
                     fontFamily: "Georgia",
                   }}
                 >
-                  "
+                  &ldquo;
                 </p>
                 <p
                   style={{

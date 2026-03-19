@@ -302,7 +302,7 @@ export default function TiptapEditor({ content, onChange, placeholder }: Props) 
           active={editor.isActive("blockquote")}
           title="Citation"
         >
-          "
+          &ldquo;
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
