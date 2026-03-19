@@ -22,8 +22,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const albums = await prisma.album.findMany({ select: { slug: true } });
-  return albums.map((a) => ({ slug: a.slug }));
+  try {
+    const albums = await prisma.album.findMany({ select: { slug: true } });
+    return albums.map((a) => ({ slug: a.slug }));
+  } catch {
+    return [];
+  }
 }
 
 export default async function AlbumPage({ params }: Props) {
