@@ -86,7 +86,7 @@ jobs:
             .next/static/ $SSH_USER@$SSH_HOST:$APP_DIR/.next/static/
           rsync -az --delete -e "ssh -p $SSH_PORT" \
             public/ $SSH_USER@$SSH_HOST:$APP_DIR/public/
-          rsync -az --delete -e "ssh -p $SSH_PORT" \
+          rsync -az --delete --exclude='dev.db' -e "ssh -p $SSH_PORT" \
             prisma/ $SSH_USER@$SSH_HOST:$APP_DIR/prisma/
 
       - name: Migrate & restart
