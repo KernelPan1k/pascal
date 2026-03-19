@@ -102,6 +102,7 @@ jobs:
             cd ${{ secrets.APP_DIR }}
 
             echo "→ Migrate"
+            set -a && source .env && set +a
             npx prisma@6 migrate deploy
 
             echo "→ Restart"
