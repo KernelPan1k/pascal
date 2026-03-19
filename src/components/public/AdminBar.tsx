@@ -1,8 +1,10 @@
-import { auth } from "@/lib/auth";
+"use client";
+
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-export default async function AdminBar() {
-  const session = await auth();
+export default function AdminBar() {
+  const { data: session } = useSession();
   if (!session?.user) return null;
 
   return (
