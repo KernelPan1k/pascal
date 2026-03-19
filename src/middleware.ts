@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { auth } from "@/lib/auth";
 
 // In-memory rate limiter: max 5 login attempts per IP per 15 minutes
 const loginAttempts = new Map<string, { count: number; resetAt: number }>();
@@ -27,7 +27,7 @@ function isRateLimited(ip: string): boolean {
   return entry.count > RATE_LIMIT;
 }
 
-export async function middleware(req: NextRequest) {
+export default auth((req) => {
   const { pathname } = req.nextUrl;
 
   // Rate limit login form submissions
@@ -42,19 +42,30 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Protect /panneau routes
-  const isLoginPage = pathname === "/panneau/login";
-  if (isLoginPage) {
+  // Allow login page, redirect to dashboard if already authenticated
+  if (pathname === "/panneau/login") {
+    if (req.auth) {
+      return NextResponse.redirect(new URL("/panneau", req.url));
+    }
     return NextResponse.next();
   }
 
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
-  if (!token) {
-    return NextResponse.redirect(new URL("/panneau/login", req.url));
+  // Protect /panneau routes
+  if (pathname.startsWith("/panneau")) {
+    if (!req.auth) {
+      return NextResponse.redirect(new URL("/panneau/login", req.url));
+    }
+
+    const adminOnlyRoutes = ["/panneau/users", "/panneau/settings"];
+    if (adminOnlyRoutes.some((route) => pathname.startsWith(route))) {
+      if (req.auth.user?.role !== "ADMIN") {
+        return NextResponse.redirect(new URL("/panneau", req.url));
+      }
+    }
   }
 
   return NextResponse.next();
-}
+});
 
 export const config = {
   matcher: ["/panneau/:path*", "/api/auth/callback/credentials"],
