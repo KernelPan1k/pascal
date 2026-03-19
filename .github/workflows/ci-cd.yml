@@ -29,6 +29,24 @@ jobs:
       - name: Tests
         run: npm test
 
+  # ── 2. Build & Deploy (main branch only) ───────────────────────────────────
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    needs: ci
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
       - name: Build
         run: npm run build
         env:
@@ -36,15 +54,34 @@ jobs:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           AUTH_URL: ${{ secrets.AUTH_URL }}
 
-  # ── 2. Deploy (main branch only) ───────────────────────────────────────────
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    needs: ci
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      - name: Setup SSH
+        env:
+          SSH_KE  §§§§§                                                                                                                                                   Y: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
 
-    steps:
-      - name: Deploy via SSH
+      - name: Deploy artifacts
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+          APP_DIR: ${{ secrets.APP_DIR }}
+        run: |
+          rsync -az --delete -e "ssh -p $SSH_PORT" \
+            .next/standalone/ $SSH_USER@$SSH_HOST:$APP_DIR/
+          rsync -az --delete -e "ssh -p $SSH_PORT" \
+            .next/static/ $SSH_USER@$SSH_HOST:$APP_DIR/.next/static/
+          rsync -az --delete -e "ssh -p $SSH_PORT" \
+            public/ $SSH_USER@$SSH_HOST:$APP_DIR/public/
+          rsync -az --delete -e "ssh -p $SSH_PORT" \
+            prisma/ $SSH_USER@$SSH_HOST:$APP_DIR/prisma/
+
+      - name: Migrate & restart
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -53,21 +90,15 @@ jobs:
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
             set -e
+            source ~/.nvm/nvm.sh
             cd ${{ secrets.APP_DIR }}
 
-            echo "→ Pull"
-            git pull origin main
-
-            echo "→ Install"
-            npm ci --legacy-peer-deps --omit=dev
-
-            echo "→ Build"
-            npm run build
-
             echo "→ Migrate"
-            npx prisma migrate deploy
+            npx --yes prisma migrate deploy
 
             echo "→ Restart"
-            pm2 restart pascal --update-env
+            pm2 delete pascal 2>/dev/null || true
+            pm2 start server.js --name pascal --node-args="--env-file=.env"
+            pm2 save
 
             echo "✓ Deploy done"
