@@ -99,7 +99,7 @@ jobs:
             cd ${{ secrets.APP_DIR }}
 
             echo "→ Migrate"
-            npx --yes prisma migrate deploy
+            npx prisma@6 migrate deploy
 
             echo "→ Restart"
             pm2 delete pascal 2>/dev/null || true
