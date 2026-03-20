@@ -4,6 +4,7 @@ import HomepageForm from "./HomepageForm";
 export default async function AdminHomepagePage() {
   const keys = [
     "home_intro",
+    "home_portrait_image",
     "home_portrait_quote",
     "home_portrait_text",
     "home_chanteur_text",

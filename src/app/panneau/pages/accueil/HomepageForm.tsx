@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import MediaUpload from "@/components/panneau/MediaUpload";
 
 interface Props {
   settings: Record<string, string>;
@@ -101,6 +103,54 @@ export default function HomepageForm({ settings: initialSettings }: Props) {
               {group.title}
             </h2>
             <div style={{ display: "grid", gap: "1.25rem" }}>
+              {/* Photo portrait — injectée en tête de la section Portrait */}
+              {group.title === "Portrait" && (
+                <div>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: "0.875rem",
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 600,
+                      color: "var(--color-midnight)",
+                      marginBottom: "0.25rem",
+                    }}
+                  >
+                    Photo de Pascal
+                  </label>
+                  <p style={{ fontSize: "0.775rem", color: "var(--color-text-light)", marginBottom: "0.75rem" }}>
+                    Apparaît à gauche du texte sur la homepage. Format portrait recommandé.
+                  </p>
+                  {settings.home_portrait_image && (
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem", marginBottom: "0.75rem" }}>
+                      <div style={{ position: "relative", width: "80px", height: "106px", flexShrink: 0, border: "1px solid #e8e0cc", overflow: "hidden" }}>
+                        <Image
+                          src={settings.home_portrait_image}
+                          alt="Portrait actuel"
+                          fill
+                          style={{ objectFit: "cover", objectPosition: "center top" }}
+                        />
+                      </div>
+                      <div>
+                        <p style={{ fontSize: "0.775rem", color: "#166534", marginBottom: "0.4rem" }}>✓ Photo actuelle</p>
+                        <button
+                          type="button"
+                          onClick={() => setSettings((s) => ({ ...s, home_portrait_image: "" }))}
+                          style={{ fontSize: "0.75rem", color: "var(--color-burgundy)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <MediaUpload
+                    accept="image/*"
+                    label="Uploader une photo"
+                    onUpload={(file) => setSettings((s) => ({ ...s, home_portrait_image: file.url }))}
+                  />
+                </div>
+              )}
+
               {group.fields.map(({ key, label, description, rows }) => (
                 <div key={key}>
                   <label

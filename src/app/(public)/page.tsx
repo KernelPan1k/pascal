@@ -1,10 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 
 export const revalidate = 60;
 
 const HOME_KEYS = [
   "home_intro",
+  "home_portrait_image",
   "home_portrait_quote",
   "home_portrait_text",
   "home_chanteur_text",
@@ -157,45 +159,123 @@ export default async function HomePage() {
       >
         <div
           style={{
-            maxWidth: "760px",
+            maxWidth: "1100px",
             margin: "0 auto",
-            textAlign: "center",
+            display: "grid",
+            gridTemplateColumns: settings.home_portrait_image
+              ? "repeat(auto-fit, minmax(300px, 1fr))"
+              : "1fr",
+            gap: "4rem",
+            alignItems: "center",
           }}
         >
-          <p
-            style={{
-              fontSize: "0.75rem",
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              color: "var(--color-gold)",
-              marginBottom: "2rem",
-            }}
-          >
-            ✦ Portrait ✦
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)",
-              fontStyle: "italic",
-              lineHeight: 1.9,
-              color: "rgba(240, 236, 224, 0.9)",
-              marginBottom: "2rem",
-            }}
-          >
-            {settings.home_portrait_quote}
-          </p>
-          <p
-            style={{
-              fontSize: "0.9rem",
-              lineHeight: 1.85,
-              color: "rgba(240, 236, 224, 0.65)",
-              maxWidth: "640px",
-              margin: "0 auto",
-            }}
-          >
-            {settings.home_portrait_text}
-          </p>
+          {/* Photo */}
+          {settings.home_portrait_image && (
+            <div style={{ position: "relative" }}>
+              {/* Décoration dorée décalée derrière la photo */}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: "1.5rem",
+                  left: "1.5rem",
+                  right: "-1.5rem",
+                  bottom: "-1.5rem",
+                  border: "1px solid rgba(201, 169, 110, 0.25)",
+                  pointerEvents: "none",
+                  zIndex: 0,
+                }}
+              />
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  overflow: "hidden",
+                  border: "1px solid rgba(201, 169, 110, 0.35)",
+                  aspectRatio: "3 / 4",
+                }}
+              >
+                <Image
+                  src={settings.home_portrait_image}
+                  alt="Pascal Mathieu"
+                  fill
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center top",
+                    filter: "sepia(18%) contrast(1.08) brightness(0.92)",
+                  }}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                />
+                {/* Fondu bas vers la couleur de fond */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "35%",
+                    background: "linear-gradient(to top, var(--color-deep) 0%, transparent 100%)",
+                  }}
+                />
+              </div>
+              {/* Légende dorée */}
+              <p
+                style={{
+                  position: "absolute",
+                  bottom: "1.25rem",
+                  left: "1.25rem",
+                  zIndex: 2,
+                  fontFamily: "var(--font-display)",
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: "var(--color-gold)",
+                }}
+              >
+                Pascal Mathieu
+              </p>
+            </div>
+          )}
+
+          {/* Texte */}
+          <div style={{ textAlign: settings.home_portrait_image ? "left" : "center" }}>
+            <p
+              style={{
+                fontSize: "0.75rem",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                color: "var(--color-gold)",
+                marginBottom: "2rem",
+              }}
+            >
+              ✦ Portrait ✦
+            </p>
+            <p
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)",
+                fontStyle: "italic",
+                lineHeight: 1.9,
+                color: "rgba(240, 236, 224, 0.9)",
+                marginBottom: "2rem",
+              }}
+            >
+              {settings.home_portrait_quote}
+            </p>
+            <p
+              style={{
+                fontSize: "0.9rem",
+                lineHeight: 1.85,
+                color: "rgba(240, 236, 224, 0.65)",
+                maxWidth: settings.home_portrait_image ? "none" : "640px",
+                margin: settings.home_portrait_image ? "0" : "0 auto",
+              }}
+            >
+              {settings.home_portrait_text}
+            </p>
+          </div>
         </div>
       </section>
 
