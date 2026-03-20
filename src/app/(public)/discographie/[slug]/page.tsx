@@ -5,7 +5,7 @@ import { sanitizeHtml } from "@/utils/sanitize";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ slug: string }>;
