@@ -14,7 +14,9 @@ interface Params {
 
 export async function PUT(req: NextRequest, { params }: Params) {
   const session = await auth();
-  if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  if (!session?.user || !["ADMIN", "EDITOR"].includes(session.user.role as string)) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
+  }
 
   const { slug } = await params;
   const body = await req.json();

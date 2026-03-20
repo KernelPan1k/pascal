@@ -13,7 +13,9 @@ interface Params {
 
 export async function PUT(req: NextRequest, { params }: Params) {
   const session = await auth();
-  if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  if (!session?.user || !["ADMIN", "EDITOR"].includes(session.user.role as string)) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
+  }
 
   const { id } = await params;
   const body = await req.json();
@@ -32,7 +34,9 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
   const session = await auth();
-  if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  if (!session?.user || !["ADMIN", "EDITOR"].includes(session.user.role as string)) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
+  }
 
   const { id } = await params;
   await prisma.testimonial.delete({ where: { id } });
