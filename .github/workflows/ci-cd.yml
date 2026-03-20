@@ -53,12 +53,12 @@ jobs:
       - name: Migrate DB (build-time)
         run: npx prisma migrate deploy
         env:
-          DATABASE_URL: "file:./dev.db"
+          DATABASE_URL: "file:/tmp/ci.db"
 
       - name: Build
         run: npm run build
         env:
-          DATABASE_URL: "file:./dev.db"
+          DATABASE_URL: "file:/tmp/ci.db"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           AUTH_URL: ${{ secrets.AUTH_URL }}
 
@@ -80,13 +80,13 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
           APP_DIR: ${{ secrets.APP_DIR }}
         run: |
-          rsync -az --delete --exclude='.env' --exclude='prisma/dev.db' -e "ssh -p $SSH_PORT" \
+          rsync -az --delete --exclude='.env' -e "ssh -p $SSH_PORT" \
             .next/standalone/ $SSH_USER@$SSH_HOST:$APP_DIR/
           rsync -az --delete -e "ssh -p $SSH_PORT" \
             .next/static/ $SSH_USER@$SSH_HOST:$APP_DIR/.next/static/
           rsync -az --delete --exclude='uploads/' -e "ssh -p $SSH_PORT" \
             public/ $SSH_USER@$SSH_HOST:$APP_DIR/public/
-          rsync -az --delete --exclude='dev.db' -e "ssh -p $SSH_PORT" \
+          rsync -az --delete -e "ssh -p $SSH_PORT" \
             prisma/ $SSH_USER@$SSH_HOST:$APP_DIR/prisma/
 
       - name: Migrate & restart
