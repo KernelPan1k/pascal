@@ -65,7 +65,7 @@ export async function processUpload(
   const buffer = Buffer.from(await file.arrayBuffer());
   await fs.writeFile(filePath, buffer);
 
-  const url = `/uploads/${subDir}/${filename}`;
+  const url = `/api/uploads/${subDir}/${filename}`;
 
   return {
     filename,
