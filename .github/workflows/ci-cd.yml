@@ -80,7 +80,7 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
           APP_DIR: ${{ secrets.APP_DIR }}
         run: |
-          rsync -az --delete --exclude='.env' -e "ssh -p $SSH_PORT" \
+          rsync -az --delete --exclude='.env' --exclude='prisma/*.db' --exclude='public/uploads/' -e "ssh -p $SSH_PORT" \
             .next/standalone/ $SSH_USER@$SSH_HOST:$APP_DIR/
           rsync -az --delete -e "ssh -p $SSH_PORT" \
             .next/static/ $SSH_USER@$SSH_HOST:$APP_DIR/.next/static/
