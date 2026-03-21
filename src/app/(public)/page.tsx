@@ -91,11 +91,63 @@ export default async function HomePage() {
               fontStyle: "italic",
               color: "var(--color-gold)",
               letterSpacing: "0.15em",
-              marginBottom: "2.5rem",
+              marginBottom: settings.home_portrait_image ? "3rem" : "2.5rem",
             }}
           >
             Chanteur · Dessinateur · Poète
           </p>
+
+          {/* Médaillon portrait */}
+          {settings.home_portrait_image && (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "3rem" }}>
+              {/* Ligne décorative */}
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem", width: "100%", maxWidth: "320px" }}>
+                <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, transparent, rgba(201,169,110,0.4))" }} />
+                <span style={{ color: "rgba(201,169,110,0.5)", fontSize: "0.6rem", letterSpacing: "0.3em" }}>✦</span>
+                <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, transparent, rgba(201,169,110,0.4))" }} />
+              </div>
+
+              {/* Cercle */}
+              <div
+                style={{
+                  position: "relative",
+                  width: "210px",
+                  height: "210px",
+                  borderRadius: "50%",
+                  boxShadow: [
+                    "0 0 0 1px rgba(13,13,26,0.9)",
+                    "0 0 0 4px rgba(201,169,110,0.7)",
+                    "0 0 0 5px rgba(13,13,26,0.6)",
+                    "0 0 0 7px rgba(201,169,110,0.2)",
+                    "0 0 40px rgba(201,169,110,0.12)",
+                    "0 8px 40px rgba(0,0,0,0.5)",
+                  ].join(", "),
+                  flexShrink: 0,
+                }}
+              >
+                <Image
+                  src={settings.home_portrait_image}
+                  alt="Pascal Mathieu"
+                  fill
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center top",
+                    borderRadius: "50%",
+                    filter: "sepia(20%) contrast(1.1) brightness(0.9) saturate(0.9)",
+                  }}
+                  sizes="210px"
+                  priority
+                />
+              </div>
+
+              {/* Ligne décorative bas */}
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "2rem", width: "100%", maxWidth: "320px" }}>
+                <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, transparent, rgba(201,169,110,0.4))" }} />
+                <span style={{ color: "rgba(201,169,110,0.5)", fontSize: "0.6rem", letterSpacing: "0.3em" }}>✦</span>
+                <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, transparent, rgba(201,169,110,0.4))" }} />
+              </div>
+            </div>
+          )}
 
           <p
             style={{
@@ -157,125 +209,41 @@ export default async function HomePage() {
           color: "var(--color-cream)",
         }}
       >
-        <div
-          style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: settings.home_portrait_image
-              ? "repeat(auto-fit, minmax(300px, 1fr))"
-              : "1fr",
-            gap: "4rem",
-            alignItems: "center",
-          }}
-        >
-          {/* Photo */}
-          {settings.home_portrait_image && (
-            <div style={{ position: "relative" }}>
-              {/* Décoration dorée décalée derrière la photo */}
-              <div
-                aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  top: "1.5rem",
-                  left: "1.5rem",
-                  right: "-1.5rem",
-                  bottom: "-1.5rem",
-                  border: "1px solid rgba(201, 169, 110, 0.25)",
-                  pointerEvents: "none",
-                  zIndex: 0,
-                }}
-              />
-              <div
-                style={{
-                  position: "relative",
-                  zIndex: 1,
-                  overflow: "hidden",
-                  border: "1px solid rgba(201, 169, 110, 0.35)",
-                  aspectRatio: "3 / 4",
-                }}
-              >
-                <Image
-                  src={settings.home_portrait_image}
-                  alt="Pascal Mathieu"
-                  fill
-                  style={{
-                    objectFit: "cover",
-                    objectPosition: "center top",
-                    filter: "sepia(18%) contrast(1.08) brightness(0.92)",
-                  }}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
-                {/* Fondu bas vers la couleur de fond */}
-                <div
-                  aria-hidden="true"
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: "35%",
-                    background: "linear-gradient(to top, var(--color-deep) 0%, transparent 100%)",
-                  }}
-                />
-              </div>
-              {/* Légende dorée */}
-              <p
-                style={{
-                  position: "absolute",
-                  bottom: "1.25rem",
-                  left: "1.25rem",
-                  zIndex: 2,
-                  fontFamily: "var(--font-display)",
-                  fontSize: "0.7rem",
-                  letterSpacing: "0.25em",
-                  textTransform: "uppercase",
-                  color: "var(--color-gold)",
-                }}
-              >
-                Pascal Mathieu
-              </p>
-            </div>
-          )}
-
-          {/* Texte */}
-          <div style={{ textAlign: settings.home_portrait_image ? "left" : "center" }}>
-            <p
-              style={{
-                fontSize: "0.75rem",
-                letterSpacing: "0.3em",
-                textTransform: "uppercase",
-                color: "var(--color-gold)",
-                marginBottom: "2rem",
-              }}
-            >
-              ✦ Portrait ✦
-            </p>
-            <p
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)",
-                fontStyle: "italic",
-                lineHeight: 1.9,
-                color: "rgba(240, 236, 224, 0.9)",
-                marginBottom: "2rem",
-              }}
-            >
-              {settings.home_portrait_quote}
-            </p>
-            <p
-              style={{
-                fontSize: "0.9rem",
-                lineHeight: 1.85,
-                color: "rgba(240, 236, 224, 0.65)",
-                maxWidth: settings.home_portrait_image ? "none" : "640px",
-                margin: settings.home_portrait_image ? "0" : "0 auto",
-              }}
-            >
-              {settings.home_portrait_text}
-            </p>
-          </div>
+        <div style={{ maxWidth: "760px", margin: "0 auto", textAlign: "center" }}>
+          <p
+            style={{
+              fontSize: "0.75rem",
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: "var(--color-gold)",
+              marginBottom: "2rem",
+            }}
+          >
+            ✦ Portrait ✦
+          </p>
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)",
+              fontStyle: "italic",
+              lineHeight: 1.9,
+              color: "rgba(240, 236, 224, 0.9)",
+              marginBottom: "2rem",
+            }}
+          >
+            {settings.home_portrait_quote}
+          </p>
+          <p
+            style={{
+              fontSize: "0.9rem",
+              lineHeight: 1.85,
+              color: "rgba(240, 236, 224, 0.65)",
+              maxWidth: "640px",
+              margin: "0 auto",
+            }}
+          >
+            {settings.home_portrait_text}
+          </p>
         </div>
       </section>
 
