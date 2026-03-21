@@ -281,6 +281,7 @@ async function main() {
     { key: "site_title", value: "Pascal Mathieu — Chanteur · Poète · Parolier" },
     { key: "site_description", value: "Site officiel de Pascal Mathieu (1961–2025), chanteur et poète de Besançon. Prix Charles Cros 1995. Découvrez sa discographie, sa biographie et son œuvre." },
     { key: "contact_email", value: "contact@pascalmathieu-artiste.fr" },
+    { key: "home_portrait_image", value: "" },
     { key: "home_intro", value: "Besançon, 1961 — 2025. Chanteur, poète, parolier. Deux Prix de l'Académie Charles Cros. Des textes pour Romain Didier, Florent Marchet, Enzo Enzo, Pierre Perret. Trois albums personnels. Des ateliers d'écriture pendant trente ans. Une œuvre qui a choisi la précision plutôt que le bruit." },
     { key: "home_portrait_quote", value: "« Au début je ne chantais pas, je hurlais principalement. »\n— Pascal" },
     { key: "home_portrait_text", value: "Révélation du Printemps de Bourges en 1986, récompensé par l'Académie Charles Cros dès son premier album en 1995, Pascal a construit une œuvre à la marge du système — sans jamais en manquer d'exigence. Parolier pour les grands noms de la chanson française, auteur de trois albums personnels salués par la critique, il a également passé trente ans à transmettre son rapport à l'écriture à travers des ateliers en Bourgogne-Franche-Comté." },
