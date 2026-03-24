@@ -97,31 +97,17 @@ export default async function HomePage() {
             Chanteur · Dessinateur · Poète
           </p>
 
-          {/* Médaillon portrait */}
+          {/* Portrait */}
           {settings.home_portrait_image && (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "3rem" }}>
-              {/* Ligne décorative */}
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem", width: "100%", maxWidth: "320px" }}>
-                <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, transparent, rgba(201,169,110,0.4))" }} />
-                <span style={{ color: "rgba(201,169,110,0.5)", fontSize: "0.6rem", letterSpacing: "0.3em" }}>✦</span>
-                <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, transparent, rgba(201,169,110,0.4))" }} />
-              </div>
-
-              {/* Cercle */}
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "3.5rem" }}>
               <div
                 style={{
                   position: "relative",
-                  width: "210px",
-                  height: "210px",
-                  borderRadius: "50%",
-                  boxShadow: [
-                    "0 0 0 1px rgba(13,13,26,0.9)",
-                    "0 0 0 4px rgba(201,169,110,0.7)",
-                    "0 0 0 5px rgba(13,13,26,0.6)",
-                    "0 0 0 7px rgba(201,169,110,0.2)",
-                    "0 0 40px rgba(201,169,110,0.12)",
-                    "0 8px 40px rgba(0,0,0,0.5)",
-                  ].join(", "),
+                  width: "300px",
+                  height: "380px",
+                  transform: "rotate(-1.5deg)",
+                  boxShadow: "6px 8px 0px rgba(0,0,0,0.85)",
+                  border: "2px solid rgba(240,236,224,0.15)",
                   flexShrink: 0,
                 }}
               >
@@ -132,19 +118,11 @@ export default async function HomePage() {
                   style={{
                     objectFit: "cover",
                     objectPosition: "center top",
-                    borderRadius: "50%",
-                    filter: "sepia(20%) contrast(1.1) brightness(0.9) saturate(0.9)",
+                    filter: "grayscale(25%) contrast(1.3) brightness(0.85)",
                   }}
-                  sizes="210px"
+                  sizes="300px"
                   priority
                 />
-              </div>
-
-              {/* Ligne décorative bas */}
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "2rem", width: "100%", maxWidth: "320px" }}>
-                <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, transparent, rgba(201,169,110,0.4))" }} />
-                <span style={{ color: "rgba(201,169,110,0.5)", fontSize: "0.6rem", letterSpacing: "0.3em" }}>✦</span>
-                <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, transparent, rgba(201,169,110,0.4))" }} />
               </div>
             </div>
           )}
