@@ -12,6 +12,10 @@ const navLinks = [
   { href: "/temoignages", label: "Témoignages" },
 ];
 
+const TEAL = "#6aacbe";
+const CREAM = "#ede8d8";
+const BG = "#0b1316";
+
 export default function PublicNav() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -19,8 +23,8 @@ export default function PublicNav() {
   return (
     <header
       style={{
-        backgroundColor: "#000000",
-        borderBottom: "1px solid rgba(255,255,255,0.1)",
+        backgroundColor: BG,
+        borderBottom: "1px solid rgba(106,172,190,0.2)",
       }}
     >
       <nav
@@ -41,13 +45,13 @@ export default function PublicNav() {
               fontFamily: "var(--font-display)",
               fontSize: "1.5rem",
               fontWeight: 400,
-              color: "#ffffff",
+              color: CREAM,
               textDecoration: "none",
               letterSpacing: "0.06em",
               textTransform: "uppercase",
             }}
           >
-            Pascal<span style={{ color: "#e8262b" }}> Mathieu</span>
+            Pascal<span style={{ color: TEAL }}> Mathieu</span>
           </Link>
 
           {/* Desktop nav */}
@@ -73,13 +77,13 @@ export default function PublicNav() {
                     fontWeight: 600,
                     color:
                       pathname === link.href
-                        ? "#e8262b"
-                        : "rgba(255,255,255,0.65)",
+                        ? TEAL
+                        : "rgba(237,232,216,0.55)",
                     textDecoration: "none",
                     transition: "color 0.15s",
                     borderBottom:
                       pathname === link.href
-                        ? "1px solid #e8262b"
+                        ? `1px solid ${TEAL}`
                         : "1px solid transparent",
                     paddingBottom: "2px",
                   }}
@@ -96,7 +100,7 @@ export default function PublicNav() {
             style={{
               background: "none",
               border: "none",
-              color: "#ffffff",
+              color: CREAM,
               cursor: "pointer",
               display: "none",
               flexDirection: "column",
@@ -111,7 +115,7 @@ export default function PublicNav() {
                 display: "block",
                 width: "24px",
                 height: "2px",
-                backgroundColor: mobileOpen ? "#e8262b" : "#ffffff",
+                backgroundColor: mobileOpen ? TEAL : CREAM,
                 transition: "transform 0.2s, background-color 0.2s",
                 transform: mobileOpen ? "rotate(45deg) translateY(7px)" : "none",
               }}
@@ -121,7 +125,7 @@ export default function PublicNav() {
                 display: "block",
                 width: "24px",
                 height: "2px",
-                backgroundColor: "#ffffff",
+                backgroundColor: CREAM,
                 opacity: mobileOpen ? 0 : 1,
                 transition: "opacity 0.2s",
               }}
@@ -131,7 +135,7 @@ export default function PublicNav() {
                 display: "block",
                 width: "24px",
                 height: "2px",
-                backgroundColor: mobileOpen ? "#e8262b" : "#ffffff",
+                backgroundColor: mobileOpen ? TEAL : CREAM,
                 transition: "transform 0.2s, background-color 0.2s",
                 transform: mobileOpen ? "rotate(-45deg) translateY(-7px)" : "none",
               }}
@@ -146,7 +150,7 @@ export default function PublicNav() {
               listStyle: "none",
               padding: "0.75rem 0",
               margin: 0,
-              borderTop: "1px solid rgba(255,255,255,0.08)",
+              borderTop: "1px solid rgba(106,172,190,0.1)",
             }}
           >
             {navLinks.map((link) => (
@@ -164,8 +168,8 @@ export default function PublicNav() {
                     fontWeight: 600,
                     color:
                       pathname === link.href
-                        ? "#e8262b"
-                        : "rgba(255,255,255,0.65)",
+                        ? TEAL
+                        : "rgba(237,232,216,0.55)",
                     textDecoration: "none",
                   }}
                 >

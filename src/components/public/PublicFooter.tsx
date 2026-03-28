@@ -1,14 +1,18 @@
 import Link from "next/link";
 
+const TEAL = "#6aacbe";
+const CREAM = "#ede8d8";
+const BG = "#0b1316";
+
 export default function PublicFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer
       style={{
-        backgroundColor: "#000000",
-        color: "#d0d0d0",
-        borderTop: "3px solid #e8262b",
+        backgroundColor: BG,
+        color: "#ccc9be",
+        borderTop: `3px solid ${TEAL}`,
         padding: "3rem 1.5rem 2rem",
         marginTop: "auto",
       }}
@@ -28,18 +32,18 @@ export default function PublicFooter() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "1.75rem",
-                color: "#ffffff",
+                color: CREAM,
                 marginBottom: "0.5rem",
                 textTransform: "uppercase",
                 letterSpacing: "0.04em",
               }}
             >
-              Pascal<span style={{ color: "#e8262b" }}> Mathieu</span>
+              Pascal<span style={{ color: TEAL }}> Mathieu</span>
             </h3>
             <p
               style={{
                 fontSize: "0.8rem",
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(237,232,216,0.35)",
                 lineHeight: 1.7,
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
@@ -61,7 +65,7 @@ export default function PublicFooter() {
                 letterSpacing: "0.25em",
                 textTransform: "uppercase",
                 fontWeight: 600,
-                color: "#e8262b",
+                color: TEAL,
                 marginBottom: "1rem",
               }}
             >
@@ -79,7 +83,7 @@ export default function PublicFooter() {
                     href={link.href}
                     style={{
                       fontSize: "0.85rem",
-                      color: "rgba(255,255,255,0.5)",
+                      color: "rgba(237,232,216,0.45)",
                       textDecoration: "none",
                       transition: "color 0.15s",
                       fontFamily: "var(--font-body)",
@@ -98,7 +102,7 @@ export default function PublicFooter() {
         <div
           style={{
             height: "1px",
-            backgroundColor: "rgba(255,255,255,0.08)",
+            backgroundColor: "rgba(106,172,190,0.12)",
             marginBottom: "1.5rem",
           }}
         />
@@ -107,7 +111,7 @@ export default function PublicFooter() {
         <p
           style={{
             fontSize: "0.75rem",
-            color: "rgba(255,255,255,0.3)",
+            color: "rgba(237,232,216,0.25)",
             letterSpacing: "0.08em",
             fontFamily: "var(--font-body)",
           }}

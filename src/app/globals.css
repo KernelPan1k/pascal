@@ -2,19 +2,19 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-midnight: #000000;
-  --color-deep: #0d0d0d;
-  --color-surface: #181818;
-  --color-gold: #e8262b;
-  --color-gold-light: #ff4040;
-  --color-cream: #e0e0e0;
-  --color-cream-bright: #ffffff;
-  --color-cream-dark: rgba(232, 38, 43, 0.1);
-  --color-burgundy: #e8262b;
-  --color-burgundy-dark: #c41e22;
-  --color-text: #d0d0d0;
-  --color-text-light: rgba(208, 208, 208, 0.45);
-  --color-border: rgba(255, 255, 255, 0.1);
+  --color-midnight: #0b1316;
+  --color-deep: #111c20;
+  --color-surface: #182428;
+  --color-gold: #6aacbe;
+  --color-gold-light: #85c0d0;
+  --color-cream: #e0ddd4;
+  --color-cream-bright: #ede8d8;
+  --color-cream-dark: rgba(106, 172, 190, 0.1);
+  --color-burgundy: #7a9c5e;
+  --color-burgundy-dark: #6a8a50;
+  --color-text: #ccc9be;
+  --color-text-light: rgba(200, 196, 184, 0.45);
+  --color-border: rgba(106, 172, 190, 0.15);
 
   --font-display: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
   --font-body: "Barlow", system-ui, sans-serif;
@@ -22,19 +22,19 @@
 }
 
 :root {
-  --color-midnight: #000000;
-  --color-deep: #0d0d0d;
-  --color-surface: #181818;
-  --color-gold: #e8262b;
-  --color-gold-light: #ff4040;
-  --color-cream: #e0e0e0;
-  --color-cream-bright: #ffffff;
-  --color-cream-dark: rgba(232, 38, 43, 0.1);
-  --color-burgundy: #e8262b;
-  --color-burgundy-dark: #c41e22;
-  --color-text: #d0d0d0;
-  --color-text-light: rgba(208, 208, 208, 0.45);
-  --color-border: rgba(255, 255, 255, 0.1);
+  --color-midnight: #0b1316;
+  --color-deep: #111c20;
+  --color-surface: #182428;
+  --color-gold: #6aacbe;
+  --color-gold-light: #85c0d0;
+  --color-cream: #e0ddd4;
+  --color-cream-bright: #ede8d8;
+  --color-cream-dark: rgba(106, 172, 190, 0.1);
+  --color-burgundy: #7a9c5e;
+  --color-burgundy-dark: #6a8a50;
+  --color-text: #ccc9be;
+  --color-text-light: rgba(200, 196, 184, 0.45);
+  --color-border: rgba(106, 172, 190, 0.15);
 }
 
 * {
@@ -107,7 +107,7 @@ h1, h2, h3, h4, h5, h6 {
 .prose-pascal a {
   color: var(--color-gold);
   text-decoration: underline;
-  text-decoration-color: rgba(232, 38, 43, 0.4);
+  text-decoration-color: rgba(106, 172, 190, 0.4);
 }
 
 .prose-pascal img {
@@ -137,12 +137,12 @@ h1, h2, h3, h4, h5, h6 {
 .form-input:focus {
   outline: none;
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 2px rgba(232, 38, 43, 0.2);
+  box-shadow: 0 0 0 2px rgba(106, 172, 190, 0.2);
 }
 
 .btn-primary {
   background-color: var(--color-gold);
-  color: #ffffff;
+  color: var(--color-midnight);
   font-family: var(--font-display);
   font-weight: 400;
   padding: 0.75rem 2rem;
@@ -167,7 +167,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   padding: 0.75rem 2rem;
   border-radius: 0;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(237, 232, 216, 0.3);
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s, background-color 0.15s;
   letter-spacing: 0.1em;
@@ -178,11 +178,11 @@ h1, h2, h3, h4, h5, h6 {
 .btn-secondary:hover {
   border-color: var(--color-cream-bright);
   color: var(--color-cream-bright);
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(237, 232, 216, 0.05);
 }
 
 .btn-danger {
-  background-color: var(--color-burgundy);
+  background-color: #a04040;
   color: white;
   font-family: var(--font-display);
   font-weight: 400;
@@ -196,7 +196,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-danger:hover {
-  background-color: var(--color-burgundy-dark);
+  background-color: #843030;
 }
 
 /* Section divider */
@@ -212,7 +212,7 @@ h1, h2, h3, h4, h5, h6 {
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(106, 172, 190, 0.2);
 }
 
 /* Admin overrides — redefine color variables for light background */
@@ -230,7 +230,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .admin-main .form-input:focus {
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 2px rgba(232, 38, 43, 0.15);
+  box-shadow: 0 0 0 2px rgba(106, 172, 190, 0.15);
 }
 
 .admin-main .form-input::placeholder {
