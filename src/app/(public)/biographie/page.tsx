@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BiographiePage() {
-  const page = await prisma.page.findUnique({
-    where: { slug: "biographie" },
+  const page = await prisma.page.findFirst({
+    where: { slug: { in: ["biographie", "biographie/"] } },
   });
 
   if (!page) notFound();

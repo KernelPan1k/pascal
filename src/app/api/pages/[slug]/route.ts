@@ -18,7 +18,8 @@ export async function PUT(req: NextRequest, { params }: Params) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
   }
 
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = rawSlug.replace(/\/+$/, "").toLowerCase();
   const body = await req.json();
   const parsed = updateSchema.safeParse(body);
   if (!parsed.success) {
