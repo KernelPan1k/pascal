@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Lora } from "next/font/google";
+import { Bebas_Neue, Barlow } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 
-const playfairDisplay = Playfair_Display({
+const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "900"],
-  style: ["normal", "italic"],
-  variable: "--font-playfair",
+  weight: ["400"],
+  variable: "--font-bebas",
   display: "swap",
 });
 
-const lora = Lora({
+const barlow = Barlow({
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
-  variable: "--font-lora",
+  variable: "--font-barlow",
   display: "swap",
 });
 
@@ -35,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${playfairDisplay.variable} ${lora.variable}`}>
+    <html lang="fr" className={`${bebasNeue.variable} ${barlow.variable}`}>
       <body>
         <Providers>{children}</Providers>
       </body>

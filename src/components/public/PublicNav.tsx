@@ -19,8 +19,8 @@ export default function PublicNav() {
   return (
     <header
       style={{
-        backgroundColor: "var(--color-midnight)",
-        borderBottom: "1px solid rgba(201, 169, 110, 0.2)",
+        backgroundColor: "#000000",
+        borderBottom: "1px solid rgba(255,255,255,0.1)",
       }}
     >
       <nav
@@ -31,7 +31,7 @@ export default function PublicNav() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            height: "70px",
+            height: "64px",
           }}
         >
           {/* Logo */}
@@ -39,21 +39,22 @@ export default function PublicNav() {
             href="/"
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "1.25rem",
-              fontWeight: 700,
-              color: "var(--color-gold)",
+              fontSize: "1.5rem",
+              fontWeight: 400,
+              color: "#ffffff",
               textDecoration: "none",
-              letterSpacing: "0.05em",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
             }}
           >
-            Pascal Mathieu
+            Pascal<span style={{ color: "#e8262b" }}> Mathieu</span>
           </Link>
 
           {/* Desktop nav */}
           <ul
             style={{
               display: "flex",
-              gap: "2rem",
+              gap: "2.5rem",
               listStyle: "none",
               margin: 0,
               padding: 0,
@@ -65,19 +66,20 @@ export default function PublicNav() {
                 <Link
                   href={link.href}
                   style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "0.875rem",
-                    letterSpacing: "0.1em",
+                    fontFamily: "var(--font-body)",
+                    fontSize: "0.75rem",
+                    letterSpacing: "0.18em",
                     textTransform: "uppercase",
+                    fontWeight: 600,
                     color:
                       pathname === link.href
-                        ? "var(--color-gold)"
-                        : "var(--color-cream)",
+                        ? "#e8262b"
+                        : "rgba(255,255,255,0.65)",
                     textDecoration: "none",
-                    transition: "color 0.2s",
+                    transition: "color 0.15s",
                     borderBottom:
                       pathname === link.href
-                        ? "1px solid var(--color-gold)"
+                        ? "1px solid #e8262b"
                         : "1px solid transparent",
                     paddingBottom: "2px",
                   }}
@@ -94,7 +96,7 @@ export default function PublicNav() {
             style={{
               background: "none",
               border: "none",
-              color: "var(--color-cream)",
+              color: "#ffffff",
               cursor: "pointer",
               display: "none",
               flexDirection: "column",
@@ -109,8 +111,8 @@ export default function PublicNav() {
                 display: "block",
                 width: "24px",
                 height: "2px",
-                backgroundColor: "var(--color-gold)",
-                transition: "transform 0.2s",
+                backgroundColor: mobileOpen ? "#e8262b" : "#ffffff",
+                transition: "transform 0.2s, background-color 0.2s",
                 transform: mobileOpen ? "rotate(45deg) translateY(7px)" : "none",
               }}
             />
@@ -119,7 +121,7 @@ export default function PublicNav() {
                 display: "block",
                 width: "24px",
                 height: "2px",
-                backgroundColor: "var(--color-gold)",
+                backgroundColor: "#ffffff",
                 opacity: mobileOpen ? 0 : 1,
                 transition: "opacity 0.2s",
               }}
@@ -129,8 +131,8 @@ export default function PublicNav() {
                 display: "block",
                 width: "24px",
                 height: "2px",
-                backgroundColor: "var(--color-gold)",
-                transition: "transform 0.2s",
+                backgroundColor: mobileOpen ? "#e8262b" : "#ffffff",
+                transition: "transform 0.2s, background-color 0.2s",
                 transform: mobileOpen ? "rotate(-45deg) translateY(-7px)" : "none",
               }}
             />
@@ -142,9 +144,9 @@ export default function PublicNav() {
           <ul
             style={{
               listStyle: "none",
-              padding: "1rem 0",
+              padding: "0.75rem 0",
               margin: 0,
-              borderTop: "1px solid rgba(201, 169, 110, 0.2)",
+              borderTop: "1px solid rgba(255,255,255,0.08)",
             }}
           >
             {navLinks.map((link) => (
@@ -155,14 +157,15 @@ export default function PublicNav() {
                   style={{
                     display: "block",
                     padding: "0.75rem 0",
-                    fontFamily: "var(--font-display)",
-                    fontSize: "0.875rem",
-                    letterSpacing: "0.1em",
+                    fontFamily: "var(--font-body)",
+                    fontSize: "0.8rem",
+                    letterSpacing: "0.18em",
                     textTransform: "uppercase",
+                    fontWeight: 600,
                     color:
                       pathname === link.href
-                        ? "var(--color-gold)"
-                        : "var(--color-cream)",
+                        ? "#e8262b"
+                        : "rgba(255,255,255,0.65)",
                     textDecoration: "none",
                   }}
                 >

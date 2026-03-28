@@ -6,9 +6,9 @@ export default function PublicFooter() {
   return (
     <footer
       style={{
-        backgroundColor: "var(--color-midnight)",
-        color: "var(--color-cream)",
-        borderTop: "1px solid rgba(201, 169, 110, 0.2)",
+        backgroundColor: "#000000",
+        color: "#d0d0d0",
+        borderTop: "3px solid #e8262b",
         padding: "3rem 1.5rem 2rem",
         marginTop: "auto",
       }}
@@ -19,7 +19,7 @@ export default function PublicFooter() {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
             gap: "2rem",
-            marginBottom: "2rem",
+            marginBottom: "2.5rem",
           }}
         >
           {/* Brand */}
@@ -27,18 +27,23 @@ export default function PublicFooter() {
             <h3
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "1.25rem",
-                color: "var(--color-gold)",
-                marginBottom: "0.75rem",
+                fontSize: "1.75rem",
+                color: "#ffffff",
+                marginBottom: "0.5rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.04em",
               }}
             >
-              Pascal Mathieu
+              Pascal<span style={{ color: "#e8262b" }}> Mathieu</span>
             </h3>
             <p
               style={{
-                fontSize: "0.875rem",
-                color: "rgba(240, 236, 224, 0.7)",
+                fontSize: "0.8rem",
+                color: "rgba(255,255,255,0.4)",
                 lineHeight: 1.7,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                fontFamily: "var(--font-body)",
               }}
             >
               Chanteur · Dessinateur · Poète
@@ -51,11 +56,12 @@ export default function PublicFooter() {
           <div>
             <h4
               style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "0.8rem",
-                letterSpacing: "0.15em",
+                fontFamily: "var(--font-body)",
+                fontSize: "0.7rem",
+                letterSpacing: "0.25em",
                 textTransform: "uppercase",
-                color: "var(--color-gold)",
+                fontWeight: 600,
+                color: "#e8262b",
                 marginBottom: "1rem",
               }}
             >
@@ -72,10 +78,12 @@ export default function PublicFooter() {
                   <Link
                     href={link.href}
                     style={{
-                      fontSize: "0.875rem",
-                      color: "rgba(240, 236, 224, 0.7)",
+                      fontSize: "0.85rem",
+                      color: "rgba(255,255,255,0.5)",
                       textDecoration: "none",
-                      transition: "color 0.2s",
+                      transition: "color 0.15s",
+                      fontFamily: "var(--font-body)",
+                      letterSpacing: "0.05em",
                     }}
                   >
                     {link.label}
@@ -84,38 +92,28 @@ export default function PublicFooter() {
               ))}
             </ul>
           </div>
-
         </div>
 
         {/* Divider */}
         <div
           style={{
             height: "1px",
-            background:
-              "linear-gradient(to right, transparent, rgba(201, 169, 110, 0.3), transparent)",
+            backgroundColor: "rgba(255,255,255,0.08)",
             marginBottom: "1.5rem",
           }}
         />
 
         {/* Copyright */}
-        <div
+        <p
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "1rem",
+            fontSize: "0.75rem",
+            color: "rgba(255,255,255,0.3)",
+            letterSpacing: "0.08em",
+            fontFamily: "var(--font-body)",
           }}
         >
-          <p
-            style={{
-              fontSize: "0.8rem",
-              color: "rgba(240, 236, 224, 0.5)",
-            }}
-          >
-            © {currentYear} Pascal Mathieu. Tous droits réservés.
-          </p>
-        </div>
+          © {currentYear} Pascal Mathieu. Tous droits réservés.
+        </p>
       </div>
     </footer>
   );

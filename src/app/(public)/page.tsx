@@ -33,82 +33,86 @@ export default async function HomePage() {
       {/* Hero */}
       <section
         style={{
-          background: `linear-gradient(135deg, var(--color-midnight) 0%, var(--color-deep) 50%, #2a1a0e 100%)`,
-          color: "var(--color-cream)",
-          padding: "8rem 1.5rem 6rem",
-          textAlign: "center",
+          backgroundColor: "#000000",
+          color: "#ffffff",
+          padding: "7rem 1.5rem 5rem",
           position: "relative",
           overflow: "hidden",
+          borderBottom: "3px solid #e8262b",
         }}
       >
+        {/* Grain texture overlay */}
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
             inset: 0,
             backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(201, 169, 110, 0.03) 80px, rgba(201, 169, 110, 0.03) 81px)",
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E\")",
+            backgroundRepeat: "repeat",
+            backgroundSize: "128px",
             pointerEvents: "none",
+            opacity: 0.6,
           }}
         />
 
-        <div style={{ position: "relative", maxWidth: "800px", margin: "0 auto" }}>
+        <div style={{ position: "relative", maxWidth: "900px", margin: "0 auto" }}>
           <p
             style={{
-              fontSize: "0.8rem",
-              letterSpacing: "0.3em",
+              fontSize: "0.75rem",
+              letterSpacing: "0.35em",
               textTransform: "uppercase",
-              color: "var(--color-gold)",
-              marginBottom: "1.5rem",
+              color: "#e8262b",
+              marginBottom: "1rem",
+              fontFamily: "var(--font-body)",
+              fontWeight: 600,
             }}
           >
-            ✦ Besançon, Franche-Comté ✦
+            Besançon — Franche-Comté
           </p>
 
           <h1
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(3rem, 8vw, 6rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.1,
-              marginBottom: "1rem",
-              background: "linear-gradient(to bottom, #f0ece0, #c9a96e)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
+              fontSize: "clamp(5rem, 18vw, 13rem)",
+              fontWeight: 400,
+              letterSpacing: "0.01em",
+              lineHeight: 0.9,
+              marginBottom: "1.5rem",
+              color: "#ffffff",
+              textTransform: "uppercase",
             }}
           >
             Pascal
             <br />
-            Mathieu
+            <span style={{ color: "#e8262b" }}>Mathieu</span>
           </h1>
 
           <p
             style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1rem, 2.5vw, 1.4rem)",
-              fontStyle: "italic",
-              color: "var(--color-gold)",
-              letterSpacing: "0.15em",
-              marginBottom: settings.home_portrait_image ? "3rem" : "2.5rem",
+              fontFamily: "var(--font-body)",
+              fontSize: "clamp(0.85rem, 2vw, 1rem)",
+              fontWeight: 600,
+              color: "rgba(255,255,255,0.55)",
+              letterSpacing: "0.4em",
+              textTransform: "uppercase",
+              marginBottom: settings.home_portrait_image ? "3.5rem" : "2.5rem",
             }}
           >
-            Chanteur · Dessinateur · Poète
+            Chanteur &nbsp;·&nbsp; Dessinateur &nbsp;·&nbsp; Poète
           </p>
 
           {/* Portrait */}
           {settings.home_portrait_image && (
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: "3.5rem" }}>
+            <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "3.5rem" }}>
               <div
                 style={{
                   position: "relative",
-                  width: "300px",
-                  height: "380px",
-                  transform: "rotate(-1.5deg)",
-                  boxShadow: "6px 8px 0px rgba(0,0,0,0.85)",
-                  border: "2px solid rgba(240,236,224,0.15)",
+                  width: "260px",
+                  height: "340px",
                   flexShrink: 0,
+                  outline: "1px solid rgba(255,255,255,0.15)",
+                  outlineOffset: "6px",
                 }}
               >
                 <Image
@@ -118,40 +122,54 @@ export default async function HomePage() {
                   style={{
                     objectFit: "cover",
                     objectPosition: "center top",
-                    filter: "grayscale(25%) contrast(1.3) brightness(0.85)",
+                    filter: "grayscale(100%) contrast(1.4) brightness(0.85)",
                   }}
-                  sizes="300px"
+                  sizes="260px"
                   priority
+                />
+                {/* Red accent strip */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "4px",
+                    backgroundColor: "#e8262b",
+                  }}
                 />
               </div>
             </div>
           )}
 
-          <p
-            style={{
-              fontSize: "1.05rem",
-              color: "rgba(240, 236, 224, 0.8)",
-              lineHeight: 1.9,
-              maxWidth: "600px",
-              margin: "0 auto 3rem",
-            }}
-          >
-            {settings.home_intro}
-          </p>
+          {settings.home_intro && (
+            <p
+              style={{
+                fontSize: "1.05rem",
+                color: "rgba(255,255,255,0.6)",
+                lineHeight: 1.8,
+                maxWidth: "580px",
+                marginBottom: "3rem",
+                fontFamily: "var(--font-body)",
+              }}
+            >
+              {settings.home_intro}
+            </p>
+          )}
 
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             <Link
               href="/discographie"
               style={{
                 display: "inline-block",
-                backgroundColor: "var(--color-gold)",
-                color: "var(--color-midnight)",
+                backgroundColor: "#e8262b",
+                color: "#ffffff",
                 fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                fontSize: "0.875rem",
-                letterSpacing: "0.1em",
+                fontWeight: 400,
+                fontSize: "1rem",
+                letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                padding: "0.875rem 2rem",
+                padding: "0.875rem 2.25rem",
                 textDecoration: "none",
               }}
             >
@@ -162,15 +180,15 @@ export default async function HomePage() {
               style={{
                 display: "inline-block",
                 backgroundColor: "transparent",
-                color: "var(--color-cream)",
+                color: "#ffffff",
                 fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                fontSize: "0.875rem",
-                letterSpacing: "0.1em",
+                fontWeight: 400,
+                fontSize: "1rem",
+                letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                padding: "0.875rem 2rem",
+                padding: "0.875rem 2.25rem",
                 textDecoration: "none",
-                border: "1px solid rgba(201, 169, 110, 0.4)",
+                border: "1px solid rgba(255,255,255,0.3)",
               }}
             >
               Biographie
@@ -179,49 +197,56 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Portrait */}
+      {/* Portrait / Citation */}
       <section
         style={{
           padding: "6rem 1.5rem",
-          backgroundColor: "var(--color-deep)",
-          color: "var(--color-cream)",
+          backgroundColor: "#0d0d0d",
+          color: "#e0e0e0",
+          borderBottom: "1px solid rgba(255,255,255,0.07)",
         }}
       >
-        <div style={{ maxWidth: "760px", margin: "0 auto", textAlign: "center" }}>
+        <div style={{ maxWidth: "760px", margin: "0 auto" }}>
           <p
             style={{
-              fontSize: "0.75rem",
-              letterSpacing: "0.3em",
+              fontSize: "0.7rem",
+              letterSpacing: "0.4em",
               textTransform: "uppercase",
-              color: "var(--color-gold)",
+              color: "#e8262b",
               marginBottom: "2rem",
+              fontFamily: "var(--font-body)",
+              fontWeight: 600,
             }}
           >
-            ✦ Portrait ✦
+            Portrait
           </p>
-          <p
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)",
-              fontStyle: "italic",
-              lineHeight: 1.9,
-              color: "rgba(240, 236, 224, 0.9)",
-              marginBottom: "2rem",
-            }}
-          >
-            {settings.home_portrait_quote}
-          </p>
-          <p
-            style={{
-              fontSize: "0.9rem",
-              lineHeight: 1.85,
-              color: "rgba(240, 236, 224, 0.65)",
-              maxWidth: "640px",
-              margin: "0 auto",
-            }}
-          >
-            {settings.home_portrait_text}
-          </p>
+          {settings.home_portrait_quote && (
+            <p
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.6rem, 4vw, 2.4rem)",
+                lineHeight: 1.2,
+                color: "#ffffff",
+                marginBottom: "2rem",
+                textTransform: "uppercase",
+              }}
+            >
+              {settings.home_portrait_quote}
+            </p>
+          )}
+          {settings.home_portrait_text && (
+            <p
+              style={{
+                fontSize: "1rem",
+                lineHeight: 1.85,
+                color: "rgba(208,208,208,0.7)",
+                maxWidth: "640px",
+                fontFamily: "var(--font-body)",
+              }}
+            >
+              {settings.home_portrait_text}
+            </p>
+          )}
         </div>
       </section>
 
@@ -229,32 +254,36 @@ export default async function HomePage() {
       <section
         style={{
           padding: "6rem 1.5rem",
-          backgroundColor: "var(--color-midnight)",
-          color: "var(--color-cream)",
+          backgroundColor: "#000000",
+          color: "#e0e0e0",
         }}
       >
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div style={{ marginBottom: "4rem" }}>
             <p
               style={{
-                fontSize: "0.75rem",
-                letterSpacing: "0.3em",
+                fontSize: "0.7rem",
+                letterSpacing: "0.4em",
                 textTransform: "uppercase",
-                color: "var(--color-gold)",
-                marginBottom: "1rem",
+                color: "#e8262b",
+                marginBottom: "0.75rem",
+                fontFamily: "var(--font-body)",
+                fontWeight: 600,
               }}
             >
-              ✦ L&apos;univers ✦
+              L&apos;univers
             </p>
             <h2
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-                fontWeight: 700,
-                color: "var(--color-cream-bright)",
+                fontSize: "clamp(2.5rem, 7vw, 5rem)",
+                fontWeight: 400,
+                color: "#ffffff",
+                textTransform: "uppercase",
+                lineHeight: 1,
               }}
             >
-              Trois arts, une même voix
+              Trois arts,<br />une même voix
             </h2>
           </div>
 
@@ -262,26 +291,27 @@ export default async function HomePage() {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "2px",
+              gap: "1px",
+              backgroundColor: "rgba(255,255,255,0.08)",
             }}
           >
             {[
               {
-                icon: "♬",
+                num: "01",
                 title: "Le Chanteur",
                 href: "/discographie",
                 text: settings.home_chanteur_text,
                 cta: "Voir la discographie",
               },
               {
-                icon: "✏",
+                num: "02",
                 title: "Le Dessinateur",
                 href: "/biographie",
                 text: settings.home_dessinateur_text,
                 cta: "Découvrir la biographie",
               },
               {
-                icon: "✦",
+                num: "03",
                 title: "Le Poète",
                 href: "/articles",
                 text: settings.home_poete_text,
@@ -292,37 +322,40 @@ export default async function HomePage() {
                 key={item.title}
                 style={{
                   padding: "3rem 2.5rem",
-                  backgroundColor: "var(--color-surface)",
-                  borderTop: "2px solid var(--color-gold)",
+                  backgroundColor: "#0d0d0d",
+                  borderTop: "3px solid #e8262b",
                 }}
               >
                 <p
                   style={{
-                    fontSize: "1.75rem",
-                    color: "var(--color-gold)",
-                    marginBottom: "1.25rem",
-                    opacity: 0.7,
+                    fontFamily: "var(--font-display)",
+                    fontSize: "3.5rem",
+                    color: "rgba(255,255,255,0.08)",
+                    lineHeight: 1,
+                    marginBottom: "1rem",
                   }}
                 >
-                  {item.icon}
+                  {item.num}
                 </p>
                 <h3
                   style={{
                     fontFamily: "var(--font-display)",
-                    fontSize: "1.35rem",
-                    color: "var(--color-cream-bright)",
+                    fontSize: "1.8rem",
+                    color: "#ffffff",
                     marginBottom: "1rem",
-                    fontWeight: 700,
+                    fontWeight: 400,
+                    textTransform: "uppercase",
                   }}
                 >
                   {item.title}
                 </h3>
                 <p
                   style={{
-                    fontSize: "0.92rem",
-                    lineHeight: 1.85,
-                    color: "rgba(240, 236, 224, 0.65)",
-                    marginBottom: "1.75rem",
+                    fontSize: "0.95rem",
+                    lineHeight: 1.75,
+                    color: "rgba(208,208,208,0.6)",
+                    marginBottom: "2rem",
+                    fontFamily: "var(--font-body)",
                   }}
                 >
                   {item.text}
@@ -330,12 +363,14 @@ export default async function HomePage() {
                 <Link
                   href={item.href}
                   style={{
+                    fontFamily: "var(--font-body)",
                     fontSize: "0.75rem",
-                    letterSpacing: "0.12em",
+                    letterSpacing: "0.2em",
                     textTransform: "uppercase",
-                    color: "var(--color-gold)",
+                    color: "#e8262b",
                     textDecoration: "none",
-                    borderBottom: "1px solid rgba(201, 169, 110, 0.35)",
+                    fontWeight: 600,
+                    borderBottom: "1px solid rgba(232,38,43,0.4)",
                     paddingBottom: "2px",
                   }}
                 >
@@ -351,91 +386,105 @@ export default async function HomePage() {
       <section
         style={{
           padding: "6rem 1.5rem",
-          backgroundColor: "var(--color-deep)",
-          color: "var(--color-cream)",
-          textAlign: "center",
+          backgroundColor: "#0d0d0d",
+          color: "#e0e0e0",
+          borderTop: "1px solid rgba(255,255,255,0.07)",
+          borderBottom: "1px solid rgba(255,255,255,0.07)",
         }}
       >
         <div style={{ maxWidth: "700px", margin: "0 auto" }}>
           <p
             style={{
-              fontSize: "0.75rem",
-              letterSpacing: "0.3em",
+              fontSize: "0.7rem",
+              letterSpacing: "0.4em",
               textTransform: "uppercase",
-              color: "var(--color-gold)",
+              color: "#e8262b",
               marginBottom: "2rem",
+              fontFamily: "var(--font-body)",
+              fontWeight: 600,
             }}
           >
-            ✦ Besançon & alentours ✦
+            Besançon &amp; alentours
           </p>
-          <p
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.05rem, 2.5vw, 1.25rem)",
-              fontStyle: "italic",
-              lineHeight: 1.9,
-              color: "rgba(240, 236, 224, 0.85)",
-              marginBottom: "2rem",
-            }}
-          >
-            {settings.home_region_quote}
-          </p>
-          <p
-            style={{
-              fontSize: "0.9rem",
-              lineHeight: 1.85,
-              color: "rgba(240, 236, 224, 0.55)",
-            }}
-          >
-            {settings.home_region_text}
-          </p>
+          {settings.home_region_quote && (
+            <p
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.5rem, 3.5vw, 2.2rem)",
+                lineHeight: 1.2,
+                color: "#ffffff",
+                marginBottom: "1.5rem",
+                textTransform: "uppercase",
+              }}
+            >
+              {settings.home_region_quote}
+            </p>
+          )}
+          {settings.home_region_text && (
+            <p
+              style={{
+                fontSize: "0.95rem",
+                lineHeight: 1.85,
+                color: "rgba(208,208,208,0.55)",
+                fontFamily: "var(--font-body)",
+              }}
+            >
+              {settings.home_region_text}
+            </p>
+          )}
         </div>
       </section>
 
-      {/* CTA contact */}
+      {/* CTA */}
       <section
         style={{
-          padding: "5rem 1.5rem",
-          backgroundColor: "var(--color-midnight)",
+          padding: "6rem 1.5rem",
+          backgroundColor: "#000000",
           textAlign: "center",
-          borderTop: "1px solid rgba(201, 169, 110, 0.1)",
         }}
       >
-        <div style={{ maxWidth: "560px", margin: "0 auto" }}>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.5rem, 3.5vw, 2rem)",
-              color: "var(--color-cream-bright)",
-              marginBottom: "1rem",
-              fontWeight: 700,
-            }}
-          >
-            {settings.home_cta_title}
-          </h2>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              color: "rgba(240, 236, 224, 0.6)",
-              lineHeight: 1.8,
-              marginBottom: "2.5rem",
-            }}
-          >
-            {settings.home_cta_text}
-          </p>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+          {settings.home_cta_title && (
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+                color: "#ffffff",
+                marginBottom: "1rem",
+                fontWeight: 400,
+                textTransform: "uppercase",
+                lineHeight: 1,
+              }}
+            >
+              {settings.home_cta_title}
+            </h2>
+          )}
+          {settings.home_cta_text && (
+            <p
+              style={{
+                fontSize: "1rem",
+                color: "rgba(208,208,208,0.55)",
+                lineHeight: 1.8,
+                marginBottom: "3rem",
+                fontFamily: "var(--font-body)",
+              }}
+            >
+              {settings.home_cta_text}
+            </p>
+          )}
+          <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link
               href="/biographie"
               style={{
                 display: "inline-block",
-                backgroundColor: "var(--color-gold)",
-                color: "var(--color-midnight)",
+                backgroundColor: "#e8262b",
+                color: "#ffffff",
                 fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                fontSize: "0.875rem",
-                letterSpacing: "0.1em",
+                fontWeight: 400,
+                fontSize: "1rem",
+                letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                padding: "0.875rem 2rem",
+                padding: "0.875rem 2.25rem",
                 textDecoration: "none",
               }}
             >
@@ -446,15 +495,15 @@ export default async function HomePage() {
               style={{
                 display: "inline-block",
                 backgroundColor: "transparent",
-                color: "var(--color-cream)",
+                color: "#ffffff",
                 fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                fontSize: "0.875rem",
-                letterSpacing: "0.1em",
+                fontWeight: 400,
+                fontSize: "1rem",
+                letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                padding: "0.875rem 2rem",
+                padding: "0.875rem 2.25rem",
                 textDecoration: "none",
-                border: "1px solid rgba(201, 169, 110, 0.4)",
+                border: "1px solid rgba(255,255,255,0.3)",
               }}
             >
               Les articles
